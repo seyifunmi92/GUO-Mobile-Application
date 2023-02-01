@@ -1,0 +1,90 @@
+import 'package:flutter/material.dart';
+
+
+class guocolor{
+  static const primaryColor = Color(0xFF053984);
+  static const secondBlue = Color(0xFF40B8EA);
+  static const accent = Color(0xffF5811E);
+  static const accentColorDark = Color(0xFF00B167);
+  static const bottomNavColor = Color(0xFF0D5898);
+  static const deepBlue = Color(0xFF004987);
+  static const deepBlueShade = Color(0xff0E67B0);
+  static const lightBlueShade = Color(0xff1CACDB);
+  static const lighterBlue = Color(0xFFacd8f2);
+  static const lightBlue = Color(0xFFD0C8FC);
+  static const cardColor = Color(0xFFE3EAF6);
+  static const vividBurgundy = Color(0xFFA12538);
+  static const grey = Color(0xFF757575);
+  static const background = Color(0xFFF2F4F7);
+  static const offWhite = Color(0xFFf6f6f6);
+  static const greyWhite = Color(0xfffafafa);
+  static const superLightBlue = Color(0xffF3F3F3);
+  static const white = Colors.white;
+  static const black = Color(0xFF001526);
+  static const red = Color(0xFFFF7171);
+  static const blueeeeee = Color(0xFF607D8B);
+  static const bkColor = Colors.black87;
+  static const blueeeee2 = Color(0xFFD9E3E8);
+  static const blue1 = Color(0xFF002544);
+  static const blue1_800 = Color(0xFF00427A);
+  static const blue1_900 = Color(0xFF004987);
+  static const blue2 = Color(0xFF1AA4E1);
+  static const blue2Dark = Color(0xff000F16);
+  static const blue2Dark100 = Color(0xFF001F2C);
+  static const blue2Dark200 = Color(0xFF002E43);
+  static const blue2Dark300 = Color(0xFF003E59);
+  static const blue2Dark600 = Color(0xFF006C9B);
+  static const blue2900 = Color(0xFFCCEBF8);
+  static const blue2_800 = Color(0xFFB3E1F5);
+  static const blue2_700 = Color(0xFF99D7F2);
+  static const blue2_500 = Color(0xFF66C2EB);
+  static const blue800 = Color(0xFF00427A);
+  static const blue200 = Color(0xFF001D36);
+  static const blue400 = Color(0xFF4DB8E8);
+  static const blueLight200 = Color(0xFF4D80AB);
+  static const blueLight300 = Color(0xFF6692B7);
+  static const blueLight400 = Color(0xFF80A4C3);
+  static const blueLight600 = Color(0xFFB3C8DB);
+  static const blueLight700 = Color(0xFFCCDBE7);
+  static const blueLight800 = Color(0xFFE6EDF3);
+  static const secondary3 = Color(0xFF65727B);
+  // static const secondary3 = Color(0xFF65727B);
+  static const secondary1 = Color(0xFFACD8F2);
+  static const secondary2 = Color(0xFFC4C4C4);
+  static const transparent = Color(0x00000000);
+  static const lightGrey = Color(0xffE7E7E7);
+  static const blueLight = Color(0xff1A5B93);
+  static const whiteGrey = Color(0xFFE3E3E3);
+  static const grey200 = Color(0xFF919191);
+  static const grey800 = Color(0xFFE3E3E3);
+  static const grey500 = Color(0xFFBABABA);
+  static const unselectedNavColor = Color(0xFFA0B8CC);
+  static const gray2 = Color(0xFFDDE2E5);
+  static const infoBox = Color(0xFF212B4B);
+  static const dark = Color(0xFF2C2738);
+  static const dark600 = Color(0xFF00B167);
+  static const blueBg = Color(0xFFE6F5FC);
+  static const green = Color(0xFF00B167);
+  static const otherGreen = Color(0xFF67BFB0);
+  static const actionButtonBg = Color(0xFFFFF2F2);
+  static const text500 = Color(0xFF021827);
+  static const dividerColor = Color(0xFFE4E4E4);
+  static const darkBackground = Colors.black12;
+  static const splash1 = Color(0xFFA6CAED);
+  static const splash2 = Color(0xFFD9E5B9);
+  static const splash3 = Color(0xFFA1E7F8);
+  static const termsBG = Color(0xFFF3D4CA);
+  static const landingBG = Color(0xFFE2C4B4);
+  static const failedScreenBG = Color(0xFFCBEAF1);
+  static const bg3 = Color(0xFFE4ECF2);
+  static const bg2 = Color(0xFFF2F4F7);
+  static const g = Color(0xFF003766);
+  static const e = Color(0xFFE2F1F8);
+  static const w = Color(0xFF525F66);
+  static const disabledButton = Color(0xFFBDBDBD);
+  static const disabledButtonText = Color(0xFFE0E0E0);
+
+
+
+
+}
