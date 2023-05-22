@@ -2,10 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guomobile/apptheme/theme.dart';
 import 'package:guomobile/providers/callfunctions/providerbloc.dart';
+import 'package:guomobile/providers/sharedstorage/localstorage.dart';
 import 'package:guomobile/providers/validations/validation.dart';
-import 'package:guomobile/screens/auth/signup/verificationsuccess.dart';
+import 'package:guomobile/screens/auth/login/login.dart';
+import 'package:guomobile/screens/auth/signup/signup.dart';
+import 'package:guomobile/screens/charter/negotiateprice.dart';
+import 'package:guomobile/screens/home/home.dart';
 import 'package:guomobile/screens/onboarding/splashscreen.dart';
+import 'package:guomobile/screens/payment/payment.dart';
+import 'package:guomobile/screens/tests.dart';
 import 'package:guomobile/services/accountbloc.dart';
+import 'package:guomobile/services/logisticsbloc.dart';
+import 'package:guomobile/services/orderservices.dart';
+import 'package:guomobile/services/terminalbloc.dart';
+import 'package:guomobile/services/walletbloc.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -61,6 +71,16 @@ class _GuoLaunch2State extends State<GuoLaunch2> {
                 create: (context) => AccountBloc()),
             ChangeNotifierProvider<ValidationBloc>(
                 create: (context) => ValidationBloc()),
+            ChangeNotifierProvider<LocalStorageBloc>(
+                create: (context) => LocalStorageBloc()),
+            ChangeNotifierProvider<TerminalBloc>(
+                create: (context) => TerminalBloc()),
+                   ChangeNotifierProvider<LogisticsBloc>(
+                create: (context) => LogisticsBloc()),
+                       ChangeNotifierProvider<WalletBloc>(
+                create: (context) => WalletBloc()),
+                    ChangeNotifierProvider<OrderBloc>(
+                create: (context) => OrderBloc()),
           ],
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
@@ -68,7 +88,7 @@ class _GuoLaunch2State extends State<GuoLaunch2> {
             themeMode: myTheme,
             darkTheme: AppTheme.darkMode,
             theme: AppTheme.lightMode,
-            home: Vsuccess(),
+            home: SplashScreen(),
           ),
         );
       },
@@ -81,3 +101,5 @@ class _GuoLaunch2State extends State<GuoLaunch2> {
     });
   }
 }
+
+

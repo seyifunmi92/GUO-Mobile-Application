@@ -5,9 +5,12 @@ import 'package:guomobile/hooks/appbars/appbar.dart';
 import 'package:guomobile/hooks/layout/mediaqueries.dart';
 import 'package:guomobile/models/onboarding.dart';
 import 'package:guomobile/navigators/navigation.dart';
+import 'package:guomobile/providers/sharedstorage/localstorage.dart';
+import 'package:guomobile/screens/auth/signup/signup.dart';
 import 'package:guomobile/screens/home/home.dart';
 import 'package:guomobile/services/accountbloc.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../asset/imageclass.dart';
 import '../../../hooks/buttons/buttons.dart';
 import '../../../hooks/dialog/showmessage.dart';
@@ -29,9 +32,16 @@ class _LoginState extends State<Login> {
   bool phoneSelected = true;
   bool emailSelected = false;
   Loginmodel? xLogin;
+  bool isname = false;
+  String name = "";
+  @override
+  void initState() {
+    getUserName();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    //closeAction(context);
     return Scaffold(
       backgroundColor: guocolor.offWhite,
       appBar: guoAppBar(context, "Login",
@@ -47,6 +57,7 @@ class _LoginState extends State<Login> {
                 onTap: () => setState(() {
                   phoneSelected = true;
                   emailSelected = false;
+                  xEmail.clear();
                 }),
                 child: dText("Phone", mqHeight(context, .02),
                     color: phoneSelected
@@ -57,6 +68,7 @@ class _LoginState extends State<Login> {
                 onTap: () => setState(() {
                   emailSelected = true;
                   phoneSelected = false;
+                  xEmail.clear();
                 }),
                 child: dText("Email", mqHeight(context, .02),
                     color: phoneSelected
@@ -80,9 +92,18 @@ class _LoginState extends State<Login> {
               ),
             )
           ]),
-          spacex2(context),
-          dText(phoneSelected ? "Phone Number" : "Email",
-              mqHeight(context, .018)),
+          sbHeight(mqHeight(context, .05)),
+          isname
+              ? Center(
+                  child: dText("welcome back, ${name}", mqHeight(context, .022),
+                      color: guocolor.primaryColor.withOpacity(.7),
+                      fontweight: FontWeight.w700),
+                )
+              : dText("", 0),
+          spacex1(context),
+          dText(
+              phoneSelected ? "Phone Number" : "Email", mqHeight(context, .018),
+              color: guocolor.primaryColor.withOpacity(.7)),
           space(context),
           guoFormField(context, mqHeight(context, .05), mqWidth(context, .5),
               containercolor: guocolor.white,
@@ -93,7 +114,8 @@ class _LoginState extends State<Login> {
             setState(() {});
           }),
           spacex1(context),
-          dText("Password", mqHeight(context, .018)),
+          dText("Password", mqHeight(context, .018),
+              color: guocolor.primaryColor.withOpacity(.7)),
           space(context),
           guoFormField(context, mqHeight(context, .05), mqWidth(context, .5),
               containercolor: guocolor.white,
@@ -132,11 +154,41 @@ class _LoginState extends State<Login> {
                   : gToast("Please enter your details to login");
             },
           ),
+          sbHeight(mqHeight(context, .01)),
+          straightButton(
+            "Use as guest",
+            mqHeight(context, .059),
+            mqWidth(context, .915),
+            guocolor.primaryColor,
+            8,
+            fontSize: mqHeight(context, .022),
+            fontColor: guocolor.white,
+            onT: () {
+              mynextScreen(context, Home("guest", "", ""));
+            },
+          ),
         ]),
       ),
       bottomNavigationBar: textbottomNav(
-          context, guocolor.white, "Dont have an account?", "Sign Up"),
+          context, guocolor.white, "Dont have an account?", "Sign Up", () {
+        mynextScreenPop(context, CreateAcc());
+      }),
     );
+  }
+
+  getUserName() async {
+    SharedPreferences _shared = await SharedPreferences.getInstance();
+    var nameT = _shared.getString("firstname");
+    if (nameT == null) {
+      setState(() {
+        isname = false;
+      });
+    } else {
+      setState(() {
+        isname = true;
+        name = nameT;
+      });
+    }
   }
 
   _runFunction() {
@@ -155,8 +207,10 @@ class _LoginState extends State<Login> {
   }
 
   logCst() {
+    print(phoneSelected);
     Provider.of<AccountBloc>(context, listen: false)
-        .Logincst(xEmail.text, xPassword.text)
+        .Logincst(phoneSelected ? "" : xEmail.text,
+            phoneSelected ? xEmail.text : "", xPassword.text)
         .then((x) => xLog(x));
   }
 
@@ -172,14 +226,28 @@ class _LoginState extends State<Login> {
       Provider.of<AccountBloc>(context, listen: false).isLoading = false;
     });
     closeAction(context);
+    Provider.of<LocalStorageBloc>(context, listen: false)
+        .setToken(xLogin!.data.accessToken);
+    Provider.of<LocalStorageBloc>(context, listen: false)
+        .setFirstname(xLogin!.data.user.firstName!);
+    Provider.of<LocalStorageBloc>(context, listen: false)
+        .getLastname(xLogin!.data.user.lastName!);
+    Provider.of<LocalStorageBloc>(context, listen: false)
+        .setCustomerId(xLogin!.data.user.id!);
+    Provider.of<LocalStorageBloc>(context, listen: false)
+        .getEmail(xLogin!.data.user.email!);
+    Provider.of<LocalStorageBloc>(context, listen: false)
+        .getPhone(xLogin!.data.user.phoneNumber);
     mynextScreen(
-        context, Home(xLogin!.data.user.firstName, xLogin!.data.user.lastName));
-    gToast("Login In Successful", isLong: true);
+        context,
+        Home(xLogin!.data.user.firstName!, xLogin!.data.user.lastName!,
+            !isname ? "firstinstall" : ""));
+    gToast("Login Successful", isLong: true);
   }
 
   xFailed(dynamic x) {
     setState(() {
-      Provider.of<AccountBloc>(conv text, listen: false).isLoading = false;
+      Provider.of<AccountBloc>(context, listen: false).isLoading = false;
     });
     closeAction(context);
     gToast(x["message"], isLong: true);

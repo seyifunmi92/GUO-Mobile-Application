@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:guomobile/constant/colors.dart';
+import 'package:guomobile/screens/orders/orderhistory.dart';
+import 'package:guomobile/screens/nearme/nearme.dart';
+import 'package:guomobile/screens/trips/trips.dart';
+import 'package:guomobile/screens/wallet/wallet.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../asset/imageclass.dart';
 import '../../navigators/navigation.dart';
+import '../../screens/home/home.dart';
 import '../layout/mediaqueries.dart';
 import '../text/text.dart';
 
@@ -97,7 +103,8 @@ AppBar guoLogoAppBar(BuildContext context, String title,
   );
 }
 
-AppBar guoLogoAppBarDash(BuildContext context, String title, String subTitle,
+AppBar guoLogoAppBarDash(
+    BuildContext context, String image, String title, String subTitle,
     {bool showBack = false,
     bool isCenter = false,
     bool showElevation = true,
@@ -144,7 +151,7 @@ AppBar guoLogoAppBarDash(BuildContext context, String title, String subTitle,
             child: InkWell(
               onTap: onT,
               child: CircleAvatar(
-                child: Image.asset(ImageClass.anayo),
+                backgroundImage: NetworkImage(image),
               ),
             ),
           )
@@ -245,8 +252,8 @@ Widget FSDHLogoAppBar(BuildContext context, String title,
   );
 }
 
-Widget textbottomNav(
-    BuildContext context, Color color, String title1, String title2) {
+Widget textbottomNav(BuildContext context, Color color, String title1,
+    String title2, void Function()? onT) {
   return Container(
     height: mqHeight(context, .1),
     color: color,
@@ -263,7 +270,7 @@ Widget textbottomNav(
         ),
         sbWidth(mqWidth(context, .002)),
         InkWell(
-          onTap: () {},
+          onTap: onT,
           child: Text(
             title2,
             style: GoogleFonts.openSans(
@@ -280,19 +287,14 @@ Widget textbottomNav(
 }
 
 Widget bottomNavDash(
-    BuildContext context,
-    void Function()? onT,
-    String title1,
-    String title2,
-    String title3,
-    String title4,
-    String title5,
-    String icon1,
-    String icon2,
-    String icon3,
-    String icon4,
-    String icon5,
-    {bool showIcon = true}) {
+  BuildContext context, {
+  bool showIcon = true,
+  bool isHome = false,
+  bool isWallet = false,
+  bool isNearme = false,
+  bool isTrips = false,
+  bool isOrders = false,
+}) {
   return Container(
     height: mqHeight(context, .1),
     decoration: BoxDecoration(
@@ -305,63 +307,106 @@ Widget bottomNavDash(
           Column(
             children: [
               showIcon
-                  ? Image.asset(
-                      icon1,
-                      height: mqHeight(context, .022),
-                      color: guocolor.primaryColor,
+                  ? InkWell(
+                      onTap: !isHome
+                          ? () {
+                              mynextScreen(context, Home("x", "y", ""));
+                            }
+                          : null,
+                      child: Image.asset(
+                        ImageClass.icons1,
+                        height: mqHeight(context, .022),
+                        color:
+                            isHome ? guocolor.primaryColor : Color(0xffA0B8CC),
+                      ),
                     )
                   : Text(""),
               sbHeight(mqHeight(context, .012)),
-              dText(title1, mqHeight(context, .011),
-                  color: guocolor.primaryColor)
+              dText("Home", mqHeight(context, .011),
+                  color: isHome ? guocolor.primaryColor : Color(0xffA0B8CC))
             ],
           ),
           Column(
             children: [
               showIcon
-                  ? Image.asset(
-                      icon2,
-                      height: mqHeight(context, .025),
+                  ? InkWell(
+                      onTap: () {
+                        mynextScreen(context, Wallet());
+                      },
+                      child: Image.asset(
+                        ImageClass.icons2,
+                        height: mqHeight(context, .025),
+                        color: isWallet
+                            ? guocolor.primaryColor
+                            : Color(0xffA0B8CC),
+                      ),
                     )
                   : Text(""),
               sbHeight(mqHeight(context, .01)),
-              dText(title2, mqHeight(context, .011), color: Color(0xffA0B8CC)),
+              dText("Wallet", mqHeight(context, .011),
+                  color: isWallet ? guocolor.primaryColor : Color(0xffA0B8CC)),
             ],
           ),
           Column(
             children: [
               showIcon
-                  ? Image.asset(
-                      icon3,
-                      height: mqHeight(context, .025),
+                  ? InkWell(
+                      onTap: () {
+                        mynextScreen(context, Nearme());
+                      },
+                      child: Image.asset(
+                        ImageClass.icons4,
+                        height: mqHeight(context, .025),
+                        color: isNearme
+                            ? guocolor.primaryColor
+                            : Color(0xffA0B8CC),
+                      ),
                     )
                   : Text(""),
               sbHeight(mqHeight(context, .01)),
-              dText(title3, mqHeight(context, .011), color: Color(0xffA0B8CC))
+              dText("Near Me", mqHeight(context, .011),
+                  color: isNearme ? guocolor.primaryColor : Color(0xffA0B8CC))
             ],
           ),
           Column(
             children: [
               showIcon
-                  ? Image.asset(
-                      icon4,
-                      height: mqHeight(context, .025),
+                  ? InkWell(
+                      onTap: () {
+                        mynextScreen(context, Trips());
+                      },
+                      child: Image.asset(
+                        ImageClass.icons2,
+                        height: mqHeight(context, .025),
+                        color:
+                            isTrips ? guocolor.primaryColor : Color(0xffA0B8CC),
+                      ),
                     )
                   : Text(""),
               sbHeight(mqHeight(context, .01)),
-              dText(title4, mqHeight(context, .011), color: Color(0xffA0B8CC))
+              dText("My Trips", mqHeight(context, .011),
+                  color: isTrips ? guocolor.primaryColor : Color(0xffA0B8CC))
             ],
           ),
           Column(
             children: [
               showIcon
-                  ? Image.asset(
-                      icon5,
-                      height: mqHeight(context, .025),
+                  ? InkWell(
+                      onTap: () {
+                        mynextScreen(context, OrderHistory());
+                      },
+                      child: Image.asset(
+                        ImageClass.icons3,
+                        height: mqHeight(context, .025),
+                        color: isOrders
+                            ? guocolor.primaryColor
+                            : Color(0xffA0B8CC),
+                      ),
                     )
                   : Text(""),
               sbHeight(mqHeight(context, .01)),
-              dText(title5, mqHeight(context, .012), color: Color(0xffA0B8CC))
+              dText("Orders", mqHeight(context, .012),
+                  color: isOrders ? guocolor.primaryColor : Color(0xffA0B8CC))
             ],
           ),
         ],

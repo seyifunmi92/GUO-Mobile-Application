@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:guomobile/constant/colors.dart';
 
 Widget straightButton(
     String text, double height, double width, Color color, double radius,
-    {double? fontSize, Color? fontColor, void Function()? onT}) {
+    {double? fontSize,
+    Color? fontColor,
+    bool showBorder = false,
+    void Function()? onT}) {
   return InkWell(
     onTap: onT,
     child: Container(
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(radius),
-      ),
+          color: color,
+          borderRadius: BorderRadius.circular(radius),
+          border: showBorder == true
+              ? Border.all(color: guocolor.primaryColor)
+              : null),
       child: Center(
           child: Text(
         text,

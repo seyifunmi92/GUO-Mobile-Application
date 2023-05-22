@@ -48,7 +48,12 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   http: ^0.13.5
   modal_progress_hud_alt: ^1.0.0
-  intl: ^0.18.0
+  intl: ^0.17.0
+  toggle_switch: ^2.0.1
+  image_picker: ^0.8.6+1
+  geolocator: ^9.0.2
+  flutter_phone_direct_caller: ^2.1.1
+  flutter_paystack: ^1.0.7
 
 dev_dependencies:
   flutter_test:

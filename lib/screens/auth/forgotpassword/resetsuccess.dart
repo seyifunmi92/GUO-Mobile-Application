@@ -20,6 +20,7 @@ class _rSuccessState extends State<rSuccess> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+    
       backgroundColor: guocolor.white,
       body: Column(children: [
         sbHeight(mqHeight(context, .25)),

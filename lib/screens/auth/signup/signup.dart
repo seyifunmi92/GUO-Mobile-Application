@@ -10,6 +10,7 @@ import 'package:guomobile/hooks/text/text.dart';
 import 'package:guomobile/navigators/navigation.dart';
 import 'package:guomobile/providers/callfunctions/providerbloc.dart';
 import 'package:guomobile/providers/validations/validation.dart';
+import 'package:guomobile/screens/auth/login/login.dart';
 import 'package:guomobile/screens/auth/signup/verificationsuccess.dart';
 import 'package:guomobile/services/accountbloc.dart';
 import 'package:provider/provider.dart';
@@ -32,6 +33,7 @@ class _CreateAccState extends State<CreateAcc> {
   String emailValidation = "";
   String phoneValidation = "";
   String passValidation = "";
+  String _encryptedNumber = "";
 
   @override
   void initState() {
@@ -43,7 +45,7 @@ class _CreateAccState extends State<CreateAcc> {
     return Scaffold(
       backgroundColor: guocolor.offWhite,
       appBar: guoAppBar(context, "Create An Account",
-          showBack: false, isCenter: false, showElevation: false),
+          showBack: false, isCenter: true, showElevation: false),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
         child: SingleChildScrollView(
@@ -196,11 +198,26 @@ class _CreateAccState extends State<CreateAcc> {
                 call();
               },
             ),
+            sbHeight(mqHeight(context, .01)),
+            straightButton(
+              "Use as guest",
+              mqHeight(context, .059),
+              mqWidth(context, .915),
+              guocolor.primaryColor,
+              8,
+              fontSize: mqHeight(context, .022),
+              fontColor: guocolor.white,
+              onT: () {
+                mynextScreen(context, Login());
+              },
+            ),
           ]),
         ),
       ),
       bottomNavigationBar: textbottomNav(
-          context, guocolor.black, "Already have an account?", "Login"),
+          context, guocolor.white, "Already have an account?", "Login", () {
+        mynextScreenPop(context, Login());
+      }),
     );
   }
 
@@ -223,6 +240,7 @@ class _CreateAccState extends State<CreateAcc> {
   _runFunction() {
     setState(() {
       Provider.of<AccountBloc>(context, listen: false).isLoading = true;
+      _encryptedNumber = xPhone.text.substring(1);
     });
     _loader();
     createCst();
@@ -236,9 +254,11 @@ class _CreateAccState extends State<CreateAcc> {
   }
 
   createCst() {
+    print(xPhone.text.substring(1));
+    print("234" + _encryptedNumber);
     Provider.of<AccountBloc>(context, listen: false)
-        .createCustomer(xFirstName.text, xLastName.text, xPhone.text,
-            xEmail.text, xPass.text)
+        .createCustomer(xFirstName.text, xLastName.text,
+            "234" + _encryptedNumber, xEmail.text, xPass.text)
         .then((x) => xOutput(x));
   }
 
@@ -353,7 +373,6 @@ class _CreateAccState extends State<CreateAcc> {
     if (xRegexPass.hasMatch(xPass.text) &&
         !xPass.text.isEmpty &&
         xPass.text.length >= 8) {
-
       setState(() {
         passValidation = "Password must contain alphanumeric characters";
         Provider.of<ValidationBloc>(context, listen: false).validPassword =

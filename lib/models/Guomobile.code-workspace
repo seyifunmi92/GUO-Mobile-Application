@@ -9,5 +9,8 @@
 		{
 			"path": "../../../../Downloads/dms_stagingjan15 2"
 		}
-	]
+	],
+	"settings": {
+		"terminal.integrated.scrollback": 10000
+	}
 }

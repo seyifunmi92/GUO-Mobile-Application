@@ -48,8 +48,8 @@ Text dText4(String text, double fontSize,
 }
 
 pageTitle(BuildContext context, String title) {
-  return dText(title, mqHeight(context, .023),
-      color: guocolor.black, fontweight: FontWeight.w400);
+  return dText(title, mqHeight(context, .02),
+      color: guocolor.black, fontweight: FontWeight.w700);
 }
 
 termsText(BuildContext context, String title, String body) {
@@ -75,12 +75,14 @@ class GuoText {
   static const ob2 = "Enjoy the best travel\n       experience";
   static const ob3 = "Seamless logistics\n   without stress";
   static const fP2 = "We’ve sent you a reset password link to your email.";
+  static const tc = "Agree to terms and conditions.";
+  static const logisticnotice =
+      "You are only entitled to carry a luggage weight of 10kg, any additional kg will attract a charge of 100 naira per kg at our terminal";
   static const fP =
       "Enter the email associated with your account, So we can send you a reset password link";
   static const welcome =
       "Welcome to GUO. Enjoy seamless\n            experiences with us";
-  static const verify =
-      "A verification link has been sent to your email";
+  static const verify = "A verification link has been sent to your email";
   static const ob4 =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eros integer non justo euismod pretium pharetra\n                      tempor etiam augue. ";
   static const ob5 =

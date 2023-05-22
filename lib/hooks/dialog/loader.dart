@@ -2,20 +2,20 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class Loader extends StatefulWidget {
+class Loaderx extends StatefulWidget {
   String image;
-  Loader(this.image);
+  Loaderx(this.image);
 
   @override
-  State<Loader> createState() => _LoaderState();
+  State<Loaderx> createState() => _LoaderxState();
 }
 
-class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
+class _LoaderxState extends State<Loaderx> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   loadAnimation() {
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
     );
     animationController.repeat();
   }
@@ -37,7 +37,7 @@ class _LoaderState extends State<Loader> with SingleTickerProviderStateMixin {
       backgroundColor: Colors.transparent,
       body: Center(
           child: Container(
-        width: 55,
+        width: 40,
         child: AnimatedBuilder(
           animation: animationController,
           builder: (context, child) {

@@ -47,7 +47,8 @@ Widget formField1(
             color: const Color(0xff65727B)),
         controller: controller,
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
             hintText: hintText,
             counterText: "",
             hintStyle: TextStyle(
@@ -85,7 +86,7 @@ Widget guoFormField(
   bool showRadius = false,
   void Function()? onEditComplete,
   void Function()? onT,
-    void Function()? suffixFunction,
+  void Function()? suffixFunction,
   bool showShadow = false,
   bool isReadonly = false,
   void Function(String)? onchanged,
@@ -106,6 +107,7 @@ Widget guoFormField(
   bool isObscure = false,
   bool autocorrect = false,
   TextInputType? textType,
+  String? Function(String?)? validatorx,
 }) {
   return Container(
     height: height,
@@ -130,6 +132,7 @@ Widget guoFormField(
             : null,
         borderRadius: showRadius ? BorderRadius.circular(10) : null),
     child: TextFormField(
+      validator: validatorx,
       style: TextStyle(
         fontFamily: "Futura",
         fontSize: mqHeight(context, .016),
@@ -192,6 +195,7 @@ Widget guoFormField(
         hintStyle: TextStyle(
           fontFamily: "Futura",
           fontSize: MediaQuery.of(context).size.height * .016,
+          color: guocolor.black.withOpacity(.3),
         ),
         contentPadding: EdgeInsets.symmetric(
             horizontal: MediaQuery.of(context).size.width * .03),

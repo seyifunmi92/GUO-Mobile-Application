@@ -131,52 +131,52 @@ class Datax {
 class User {
   User({
     this.topDestinations,
-    required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.phoneNumber,
+     this.id,
+     this.firstName,
+     this.lastName,
+     this.email,
+     this.phoneNumber,
     this.address,
     this.dob,
-    required this.roleId,
+     this.roleId,
     this.profileImage,
-    required this.referralCode,
+    this.referralCode,
     this.referredBy,
     this.nextOfKin,
     this.nextOfKinNumber,
     this.totalReferred,
     this.loyaltyPoints,
-    required this.isVerified,
-    required this.status,
-    required this.token,
+     this.isVerified,
+     this.status,
+     this.token,
     this.tokenExpire,
-    required this.createdAt,
-    required this.updatedAt,
+     this.createdAt,
+     this.updatedAt,
     this.deletedAt,
   });
 
   dynamic topDestinations;
-  int id;
-  String firstName;
-  String lastName;
-  String email;
-  String phoneNumber;
+  int? id;
+  String? firstName;
+  String? lastName;
+  String? email;
+  dynamic phoneNumber;
   dynamic address;
   dynamic dob;
-  int roleId;
+  int? roleId;
   dynamic profileImage;
-  String referralCode;
+  String? referralCode;
   dynamic referredBy;
   dynamic nextOfKin;
   dynamic nextOfKinNumber;
   dynamic totalReferred;
   dynamic loyaltyPoints;
-  bool isVerified;
-  String status;
-  String token;
+  bool? isVerified;
+  String? status;
+  String? token;
   dynamic tokenExpire;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   dynamic deletedAt;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -226,8 +226,8 @@ class User {
         "status": status,
         "token": token,
         "tokenExpire": tokenExpire,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        "createdAt": createdAt!.toIso8601String(),
+        "updatedAt": updatedAt!.toIso8601String(),
         "deletedAt": deletedAt,
       };
 }

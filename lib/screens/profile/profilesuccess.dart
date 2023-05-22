@@ -32,7 +32,7 @@ class _PSuccessState extends State<PSuccess> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            dText("Photo Updated\n    Succesfully", mqHeight(context, .04),
+            dText("Profile Updated\n    Succesfully", mqHeight(context, .04),
                 fontweight: FontWeight.w700),
           ],
         ),
@@ -40,7 +40,7 @@ class _PSuccessState extends State<PSuccess> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
           child: straightButton(
-            "Close",
+            "Home",
             mqHeight(context, .059),
             mqWidth(context, .915),
             guocolor.primaryColor,
@@ -48,7 +48,7 @@ class _PSuccessState extends State<PSuccess> {
             fontSize: mqHeight(context, .022),
             fontColor: guocolor.white,
             onT: () {
-              mynextScreen(context, Home("", ""));
+              mynextScreen(context, Home("x", "", ""));
             },
           ),
         ),

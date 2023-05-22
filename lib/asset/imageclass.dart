@@ -28,6 +28,17 @@ class ImageClass {
   static const download = "assets/images/download.png";
   static const profile = "assets/images/profile.png";
   static const guo = "assets/images/guo.png";
-    static const loader = "assets/images/loader.png";
-
+  static const loader = "assets/images/loader.png";
+  static const book1 = "assets/images/book1.png";
+  static const book2 = "assets/images/book2.png";
+  static const cargo = "assets/images/cargo1.png";
+  static const haulage = "assets/images/haulage1.png";
+  static const ecommerce = "assets/images/ecommerce1.png";
+  static const parcel = "assets/images/parcel1.png";
+  static const error = "assets/images/error.gif";
+  static const map = "assets/images/map2.png";
+  static const steering = "assets/images/steering.png";
+  static const paystack = "assets/images/paystack.png";
+  static const flutterwave = "assets/images/flutterwave.png";
+  static const wallet = "assets/images/wallet.jpg";
 }
