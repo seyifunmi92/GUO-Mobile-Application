@@ -62,7 +62,7 @@ class _GuardianState extends State<Guardian> {
     // closeAction(context);
     return Scaffold(
       backgroundColor: guocolor.offWhite,
-      appBar: guoAppBar(context, "Guardianship Details"),
+      appBar: guoAppBar(context, "Guardian Details"),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: mqHeight(context, .02)),
         child: Column(
