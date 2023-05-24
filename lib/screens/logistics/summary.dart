@@ -118,7 +118,8 @@ class _SummarysState extends State<Summarys> {
   Widget build(BuildContext context) {
     // closeAction(context);
     return Scaffold(
-      appBar: guoAppBar(context, "Summary"),
+      backgroundColor: guocolor.offWhite,
+      appBar: guoAppBar(context, "Summary", showElevation: false),
       body: Provider.of<LogisticsBloc>(context, listen: false).isloading
           ? Loaderx(ImageClass.loader)
           : SingleChildScrollView(
@@ -349,7 +350,6 @@ class _SummarysState extends State<Summarys> {
           Payment(
             amount: xBal,
           ));
- 
     } else {
       setState(() {});
       closeAction(context);

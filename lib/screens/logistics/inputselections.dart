@@ -456,7 +456,9 @@ class _InputSelectionsState extends State<InputSelections> {
                 .validsubcategory &&
             Provider.of<ValidationBloc>(context, listen: false).validwidth &&
             Provider.of<ValidationBloc>(context, listen: false).validheight &&
-            Provider.of<ValidationBloc>(context, listen: false).validdescription
+            Provider.of<ValidationBloc>(context, listen: false)
+                .validdescription &&
+            tandc
         ? mynextScreen(
             context,
             Summarys(

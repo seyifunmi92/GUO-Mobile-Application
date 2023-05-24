@@ -9,6 +9,7 @@ import 'package:guomobile/hooks/containers/container.dart';
 import 'package:guomobile/hooks/dialog/loader.dart';
 import 'package:guomobile/hooks/layout/mediaqueries.dart';
 import 'package:guomobile/hooks/text/text.dart';
+import 'package:guomobile/models/nullrider.dart';
 import 'package:guomobile/models/od.dart';
 import 'package:guomobile/models/orderdetails.dart';
 import 'package:guomobile/providers/callfunctions/providerbloc.dart';
@@ -32,18 +33,22 @@ class OrderDetails extends StatefulWidget {
 
 OrderDetailss? xOD;
 Od? xrider;
+Nullrider? xridernull;
 
 class _OrderDetailsState extends State<OrderDetails> {
   final _format = NumberFormat("#,###,000.00");
 
   bool isError = false;
   bool isDashboard = false;
+  bool nullRider = false;
   String bookingfee = "";
   String additionalFee = "";
   String totalDistance = "";
   String subTotal = "";
   bool malePressed = false;
   bool errorOccured = false;
+  String createdDate = "";
+  String deliveryDate = "";
   @override
   void initState() {
     Provider.of<OrderBloc>(context, listen: false).isloading = true;
@@ -54,10 +59,6 @@ class _OrderDetailsState extends State<OrderDetails> {
 
   @override
   Widget build(BuildContext context) {
-    String createdDate =
-        DateFormat("dd MMMM yyyy, hh:mm aaa").format(xOD!.data.createdAt);
-    String deliveryDate =
-        DateFormat("dd MMMM yyyy, hh:mm aaa").format(xOD!.data.updatedAt);
     return Scaffold(
       backgroundColor: isError ? guocolor.white : guocolor.offWhite,
       appBar: guoAppBar(context, "Order Details"),
@@ -192,49 +193,17 @@ class _OrderDetailsState extends State<OrderDetails> {
                           ),
                         ),
                         sbHeight(mqHeight(context, .03)),
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: AssetImage(ImageClass.anayo),
-                            ),
-                            sbWidth(mqWidth(context, .02)),
-                            Container(
-                              width: mqWidth(context, .35),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                        !nullRider
+                            ? _showRider()
+                            : Row(
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      dText(
-                                          xrider!.data.rider!.firstName +
-                                              " " +
-                                              xrider!.data.rider!.lastName,
-                                          mqHeight(context, .02)),
-                                      sbHeight(mqHeight(context, .01)),
-                                      dText("Rider", mqHeight(context, .013),
-                                          color: guocolor.primaryColor),
-                                    ],
-                                  ),
-                                  straightButton(
-                                    "Review Rider",
-                                    mqHeight(context, .029),
-                                    mqWidth(context, .08),
-                                    guocolor.primaryColor,
-                                    10,
-                                    fontSize: mqHeight(context, .01),
-                                    fontColor: guocolor.white,
-                                    onT: () {
-                                      mynextScreen(context, Review(xrider!));
-                                    },
-                                  ),
+                                  Icon(Icons.info),
+                                  sbWidth(mqWidth(context, .02)),
+                                  dText(
+                                      "Rider details not available at the moment",
+                                      mqHeight(context, .02)),
                                 ],
                               ),
-                            ),
-                          ],
-                        ),
                         sbHeight(mqHeight(context, .03)),
                         Divider(),
                         sbHeight(mqHeight(context, .03)),
@@ -250,7 +219,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                           children: [
                             dText("Booking Fee", mqHeight(context, .017)),
                             dText(
-                                "N ${_format.format(xrider!.data.bookingFee.toDouble())}",
+                                !nullRider
+                                    ? "N ${_format.format(xrider!.data.bookingFee.toDouble())}"
+                                    : "N ${_format.format(xridernull!.data.bookingFee.toDouble())}",
                                 mqHeight(context, .017),
                                 fontweight: FontWeight.w700),
                           ],
@@ -261,7 +232,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                           children: [
                             dText("Additional Fee", mqHeight(context, .017)),
                             dText(
-                                "N ${_format.format(xrider!.data.additionalFee.toDouble())}",
+                                !nullRider
+                                    ? "N ${_format.format(xrider!.data.additionalFee.toDouble())}"
+                                    : "N ${_format.format(xridernull!.data.additionalFee.toDouble())}",
                                 mqHeight(context, .017),
                                 fontweight: FontWeight.w700),
                           ],
@@ -271,7 +244,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             dText("Total Distance", mqHeight(context, .017)),
-                            dText(xrider!.data.totalDistance,
+                            dText(
+                                !nullRider
+                                    ? xrider!.data.totalDistance
+                                    : xridernull!.data.totalDistance,
                                 mqHeight(context, .018),
                                 fontweight: FontWeight.w700),
                           ],
@@ -283,7 +259,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                             dText("Sub Total", mqHeight(context, .017),
                                 fontweight: FontWeight.w700),
                             dText(
-                                "N ${_format.format(xrider!.data.subTotal.toDouble())}",
+                                !nullRider
+                                    ? "N ${_format.format(xrider!.data.subTotal.toDouble())}"
+                                    : "N ${_format.format(xridernull!.data.subTotal.toDouble())}",
                                 mqHeight(context, .017),
                                 fontweight: FontWeight.w700),
                           ],
@@ -300,22 +278,24 @@ class _OrderDetailsState extends State<OrderDetails> {
                           onT: () {},
                         ),
                         sbHeight(mqHeight(context, .02)),
-                        straightButton(
-                          "Call Rider",
-                          mqHeight(context, .059),
-                          mqWidth(context, .915),
-                          guocolor.primaryColor,
-                          8,
-                          fontSize: mqHeight(context, .022),
-                          fontColor: guocolor.white,
-                          onT: () {
-                            xrider!.data.rider!.phoneNumber.runtimeType ==
-                                    String
-                                ? _callRider()
-                                : toast(
-                                    "Rider details not available at the moment");
-                          },
-                        ),
+                        !nullRider
+                            ? straightButton(
+                                "Call Rider",
+                                mqHeight(context, .059),
+                                mqWidth(context, .915),
+                                guocolor.primaryColor,
+                                8,
+                                fontSize: mqHeight(context, .022),
+                                fontColor: guocolor.white,
+                                onT: () {
+                                  xrider!.data.rider!.phoneNumber.runtimeType ==
+                                          String
+                                      ? _callRider()
+                                      : toast(
+                                          "Rider details not available at the moment");
+                                },
+                              )
+                            : dText("", 0),
                         sbHeight(mqHeight(context, .02)),
                         straightButton(
                           "Download Receipt",
@@ -335,6 +315,50 @@ class _OrderDetailsState extends State<OrderDetails> {
     );
   }
 
+  _showRider() {
+    return Row(
+      children: [
+        CircleAvatar(
+          backgroundImage: AssetImage(ImageClass.anayo),
+        ),
+        sbWidth(mqWidth(context, .02)),
+        Container(
+          width: mqWidth(context, .35),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  dText(
+                      xrider!.data.rider!.firstName +
+                          " " +
+                          xrider!.data.rider!.lastName,
+                      mqHeight(context, .02)),
+                  sbHeight(mqHeight(context, .01)),
+                  dText("Rider", mqHeight(context, .013),
+                      color: guocolor.primaryColor),
+                ],
+              ),
+              straightButton(
+                "Review Rider",
+                mqHeight(context, .029),
+                mqWidth(context, .08),
+                guocolor.primaryColor,
+                10,
+                fontSize: mqHeight(context, .01),
+                fontColor: guocolor.white,
+                onT: () {
+                  mynextScreen(context, Review(xrider!));
+                },
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   _getOrderDetails() {
     Provider.of<OrderBloc>(context, listen: false)
         .getOrderDetails(widget.orderId!)
@@ -348,12 +372,22 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 
   xOutput2(String x) {
+    print("seyeyeyey");
+    print(x);
     var xx = jsonDecode(x);
     if (xx["success"] == true) {
-      setState(() {
-        // xrider = Od.fromJson(xx);
-        errorOccured = false;
-      });
+      if (xx["data"]["rider"] == null) {
+        setState(() {
+          xridernull = Nullrider.fromJson(xx);
+          nullRider = true;
+        });
+      } else {
+        setState(() {
+          xrider = Od.fromJson(xx);
+          nullRider = false;
+          errorOccured = false;
+        });
+      }
     } else {
       setState(() {
         errorOccured = true;
@@ -362,11 +396,17 @@ class _OrderDetailsState extends State<OrderDetails> {
   }
 
   xOutput(String x) {
+    print("seyyyyyy");
+    print(x);
     var xx = jsonDecode(x);
     if (xx["success"] == true) {
       setState(() {
         xOD = OrderDetailss.fromJson(xx);
         Provider.of<OrderBloc>(context, listen: false).isloading = false;
+        createdDate =
+            DateFormat("dd MMMM yyyy, hh:mm aaa").format(xOD!.data.createdAt);
+        deliveryDate =
+            DateFormat("dd MMMM yyyy, hh:mm aaa").format(xOD!.data.updatedAt);
       });
     } else {
       setState(() {

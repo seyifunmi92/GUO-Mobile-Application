@@ -23,7 +23,7 @@ class _PaymentStatusState extends State<PaymentStatus> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       appBar: guoAppBar(context, "title",showBack: true),
+    //   appBar: guoAppBar(context, "title",showBack: true),
 
       backgroundColor: guocolor.white,
       body: Column(children: [

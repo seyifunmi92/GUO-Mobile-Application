@@ -41,4 +41,5 @@ class ImageClass {
   static const paystack = "assets/images/paystack.png";
   static const flutterwave = "assets/images/flutterwave.png";
   static const wallet = "assets/images/wallet.jpg";
+  static const reward = "assets/images/reward.png";
 }

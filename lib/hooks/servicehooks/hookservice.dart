@@ -4,6 +4,7 @@ import 'package:guomobile/hooks/appbars/appbar.dart';
 import 'package:guomobile/hooks/layout/mediaqueries.dart';
 import 'package:guomobile/screens/nearme/terminalbyid.dart';
 import 'package:guomobile/screens/orders/orderhistory.dart';
+import 'package:guomobile/screens/refferals/refferal.dart';
 import 'package:guomobile/screens/reviews/riderreview.dart';
 import 'package:guomobile/screens/settings/settings.dart';
 import 'package:guomobile/screens/trips/selectseats.dart';
@@ -149,6 +150,46 @@ Widget dashContainerTrip(BuildContext context, String tripDestination,
                 sbWidth(mqWidth(context, .005)),
                 dText("Seat $seatNumber", mqHeight(context, .0165),
                     fontweight: FontWeight.w600, color: guocolor.white),
+              ],
+            ),
+          ]),
+        ),
+      )
+    ]),
+  );
+}
+
+Widget loyaltyContainer(BuildContext context, String tripDestination,
+    String dateTime, String seatNumber) {
+  return Container(
+    height: mqHeight(context, .15),
+    width: MediaQuery.of(context).size.width,
+    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
+    child: Stack(children: [
+      Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          image: const DecorationImage(
+            image: AssetImage(ImageClass.ob2),
+            fit: BoxFit.fitWidth,
+          ),
+        ),
+      ),
+      Scaffold(
+        backgroundColor: guocolor.transparent,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            sbHeight(mqHeight(context, .027)),
+            dText("Loyalty points", mqHeight(context, .017),
+                fontweight: FontWeight.w700, color: guocolor.white),
+            sbHeight(mqHeight(context, .012)),
+            sbHeight(mqHeight(context, .012)),
+            Row(
+              children: [
+                dText("$seatNumber", mqHeight(context, .028),
+                    fontweight: FontWeight.w700, color: guocolor.white),
               ],
             ),
           ]),
@@ -353,8 +394,13 @@ Widget guoDrawer(BuildContext context, String image, String name,
               height: mqHeight(context, .018),
             ),
             sbWidth(mqWidth(context, .025)),
-            dText("Rewards", mqHeight(context, .019),
-                color: guocolor.black.withOpacity(.7)),
+            InkWell(
+              onTap: () {
+                mynextScreen(context, Refferals());
+              },
+              child: dText("Refferals", mqHeight(context, .019),
+                  color: guocolor.black.withOpacity(.7)),
+            ),
           ],
         ),
         sbHeight(mqHeight(context, .071)),

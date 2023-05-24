@@ -23,6 +23,7 @@ class OrderBloc extends ChangeNotifier {
     };
     try {
       var url = Uri.parse(BaseUrl + "/api/logistics/users/${userId}/orders");
+      print(url);
       final xResponse = await http.get(url, headers: sessionHeaders);
       if (xResponse.statusCode == 200) {
         print(xResponse.body);
@@ -47,6 +48,7 @@ class OrderBloc extends ChangeNotifier {
     };
     try {
       var url = Uri.parse(BaseUrl + "/api/logistics/orders/${orderId}");
+      print(url);
       final xResponse = await http.get(url, headers: sessionHeaders);
       if (xResponse.statusCode == 200) {
         print(xResponse.body);
@@ -71,6 +73,7 @@ class OrderBloc extends ChangeNotifier {
     };
     try {
       var url = Uri.parse(BaseUrl + "/api/logistics/orders/${orderId}/details");
+      print(url);
       final xResponse = await http.get(url, headers: sessionHeaders);
       if (xResponse.statusCode == 200) {
         print(xResponse.body);

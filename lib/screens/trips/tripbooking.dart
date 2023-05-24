@@ -329,6 +329,7 @@ class _TripBookingState extends State<TripBooking> {
   }
 
   _getStateList() {
+    print("statex");
     Provider.of<ProviderBloc>(context, listen: false).showTrips(context,
         list: Column(
           children: [...xStates!.map((e) => _stateList(e))],
