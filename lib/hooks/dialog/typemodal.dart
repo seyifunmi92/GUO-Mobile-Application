@@ -21,6 +21,7 @@ class _TypemodalState extends State<Typemodal> {
   bool isBulky = false;
   bool isFragile = false;
   bool isHeavy = false;
+  bool isOthers = false;
 
   @override
   void initState() {
@@ -28,6 +29,8 @@ class _TypemodalState extends State<Typemodal> {
     getBoolBulky();
     getBoolFragile();
     getBoolHeavy();
+    getBoolOthers();
+
     super.initState();
   }
 
@@ -140,6 +143,28 @@ class _TypemodalState extends State<Typemodal> {
                     dText("Heavy", mqHeight(context, .02)),
                   ],
                 ),
+                sbHeight(mqHeight(context, .02)),
+                Row(
+                  children: [
+                    boxTick(isOthers ? true : false, onT: () {
+                      if (!isOthers) {
+                        setState(() {
+                          isOthers = true;
+                          Provider.of<LocalStorageBloc>(context, listen: false)
+                              .setBool("isOthers", true);
+                        });
+                      } else {
+                        setState(() {
+                          isOthers = false;
+                          Provider.of<LocalStorageBloc>(context, listen: false)
+                              .removeBool("isOthers");
+                        });
+                      }
+                    }),
+                    sbWidth(mqWidth(context, .01)),
+                    dText("Others", mqHeight(context, .02)),
+                  ],
+                ),
                 sbHeight(mqHeight(context, .04)),
                 straightButton("Close", mqHeight(context, .05),
                     mqWidth(context, .1), guocolor.primaryColor, 10,
@@ -198,6 +223,14 @@ class _TypemodalState extends State<Typemodal> {
     var p = _shared.getBool("isFragile");
     setState(() {
       isFragile = p!;
+    });
+  }
+
+  getBoolOthers() async {
+    SharedPreferences _shared = await SharedPreferences.getInstance();
+    var p = _shared.getBool("isOthers");
+    setState(() {
+      isOthers = p!;
     });
   }
 }

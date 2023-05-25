@@ -301,7 +301,8 @@ class _TripBookingState extends State<TripBooking> {
     Provider.of<ProviderBloc>(context, listen: false).showTrips(context,
         list: Column(
           children: [...xterminal!.map((e) => _allT(e))],
-        ));
+        ),
+        header: "Select Destination");
   }
 
   Widget _allT(Datum xt) {
@@ -333,7 +334,8 @@ class _TripBookingState extends State<TripBooking> {
     Provider.of<ProviderBloc>(context, listen: false).showTrips(context,
         list: Column(
           children: [...xStates!.map((e) => _stateList(e))],
-        ));
+        ),
+        header: "Select Depature State");
   }
 
   _getStates() {
@@ -349,6 +351,7 @@ class _TripBookingState extends State<TripBooking> {
       setState(() {
         xStates = allStates.map<Datumx>((e) => Datumx.fromJson(e)).toList();
       });
+      print("seeeeege");
     } else {}
   }
 

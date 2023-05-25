@@ -482,7 +482,7 @@ class _ChildTripState extends State<ChildTrip> {
                   sbHeight(mqHeight(context, .005)),
                   dText(
                       x.airConditioned == true
-                          ? "Air Conditioned"
+                          ? "Air - Conditioned"
                           : "Not AirConditioned",
                       mqHeight(context, .015),
                       fontweight: FontWeight.w500),
