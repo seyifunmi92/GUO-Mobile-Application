@@ -99,7 +99,14 @@ class _CharterDetailsState extends State<CharterDetails> {
                           mqWidth(context, .2), guocolor.white, 10,
                           fontSize: mqHeight(context, .017),
                           fontColor: guocolor.primaryColor,
-                          showBorder: true),
+                          showBorder: true,onT: () {
+                        mynextScreen(
+                            context,
+                            BookCharter(
+                              xFleet!.data!.id!,
+                              fee: xFleet!.data!.price.toDouble().toInt(),
+                            ));
+                      }),
                     ],
                   )
                 ],

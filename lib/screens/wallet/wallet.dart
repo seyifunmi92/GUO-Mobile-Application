@@ -8,6 +8,7 @@ import 'package:guomobile/hooks/layout/mediaqueries.dart';
 import 'package:guomobile/navigators/navigation.dart';
 import 'package:guomobile/screens/auth/forgotpassword/resetpass.dart';
 import 'package:intl/intl.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../hooks/buttons/buttons.dart';
@@ -31,12 +32,13 @@ class _WalletState extends State<Wallet> {
   bool showBalance = false;
   bool lowBalance = false;
   int customerId = 0;
+  bool isloading = false;
   final _format = NumberFormat("#,###,000.00");
 
   @override
   void initState() {
+    isloading = true;
     _getCustomerId();
-
     super.initState();
   }
 
@@ -45,38 +47,40 @@ class _WalletState extends State<Wallet> {
     return Scaffold(
       appBar: guoAppBar(context, "My Wallet"),
       bottomNavigationBar: bottomNavDash(context, isWallet: true),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
-        child: Column(
-          children: [
-            sbHeight(mqHeight(context, .048)),
-            dashContainerWallet(
-                context,
-                "Wallet Balance",
-                "dateTime",
-                currentBalance != "0.00"
-                    ? "N ${_format.format(double.parse(currentBalance))}"
-                    : "N ${currentBalance}"),
-            sbHeight(mqHeight(context, .048)),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                dText("Recent Transactions", mqHeight(context, .02)),
-                dText("View All", mqHeight(context, .02)),
-              ],
+      body: isloading
+          ? Loader()
+          : Padding(
+              padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
+              child: Column(
+                children: [
+                  sbHeight(mqHeight(context, .048)),
+                  dashContainerWallet(
+                      context,
+                      "Wallet Balance",
+                      "dateTime",
+                      currentBalance != "0.00"
+                          ? "N ${_format.format(double.parse(currentBalance))}"
+                          : "N ${currentBalance}"),
+                  sbHeight(mqHeight(context, .048)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      dText("Recent Transactions", mqHeight(context, .02)),
+                      dText("View All", mqHeight(context, .02)),
+                    ],
+                  ),
+                  sbHeight(mqHeight(context, .048)),
+                  containSet(context, "All Expense Paid Trip to Maldives   ",
+                      "400pts", Icons.reviews_sharp),
+                  sbHeight(mqHeight(context, .018)),
+                  containSet(context, "All Expense Paid Trip to Maldives   ",
+                      "400pts", Icons.reviews_sharp),
+                  sbHeight(mqHeight(context, .018)),
+                  containSet(context, "All Expense Paid Trip to Maldives   ",
+                      "400pts", Icons.reviews_sharp),
+                ],
+              ),
             ),
-            sbHeight(mqHeight(context, .048)),
-            containSet(context, "All Expense Paid Trip to Maldives   ",
-                "400pts", Icons.reviews_sharp),
-                   sbHeight(mqHeight(context, .018)),
-            containSet(context, "All Expense Paid Trip to Maldives   ",
-                "400pts", Icons.reviews_sharp),
-                   sbHeight(mqHeight(context, .018)),
-            containSet(context, "All Expense Paid Trip to Maldives   ",
-                "400pts", Icons.reviews_sharp),
-          ],
-        ),
-      ),
     );
   }
 
@@ -102,12 +106,14 @@ class _WalletState extends State<Wallet> {
       setState(() {
         showBalance = true;
         currentBalance = balance;
+        isloading = false;
       });
       print(currentBalance);
     } else {
       setState(() {
         showBalance = false;
         currentBalance = "0.00";
+        isloading = false;
       });
       print(currentBalance);
     }

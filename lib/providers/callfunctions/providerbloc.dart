@@ -78,6 +78,22 @@ class ProviderBloc extends ChangeNotifier {
     );
   }
 
+  logoutnotice(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (ctx, a1, a2) {
+        return Container();
+      },
+      transitionBuilder: (ctx, a1, a2, child) {
+        return Transform.scale(
+          scale: Curves.bounceOut.transform(a1.value),
+          child: logoutnotice(context),
+        );
+      },
+      transitionDuration: const Duration(seconds: 1),
+    );
+  }
+
   showTrips(BuildContext context, {Widget? list, String? header}) {
     showGeneralDialog(
       context: context,
@@ -159,6 +175,26 @@ class ProviderBloc extends ChangeNotifier {
         return Transform.scale(
             scale: Curves.fastOutSlowIn.transform(a1.value),
             child: Loaderx(image));
+      },
+      transitionDuration: const Duration(seconds: 1),
+    );
+    // showDialog(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return Loaderx(image);
+    //     });
+  }
+
+  showLogout(BuildContext context) {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (ctx, a1, a2) {
+        return Container();
+      },
+      transitionBuilder: (ctx, a1, a2, child) {
+        return Transform.scale(
+            scale: Curves.fastOutSlowIn.transform(a1.value),
+            child: logoutcontainer(context));
       },
       transitionDuration: const Duration(seconds: 1),
     );

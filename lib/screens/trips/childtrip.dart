@@ -35,7 +35,11 @@ class ChildTrip extends StatefulWidget {
 class _ChildTripState extends State<ChildTrip> {
   final formkey = GlobalKey();
   DateTime selectedDeliveryDate = DateTime.now();
+  DateTime selectedReturnDate = DateTime.now();
+
   bool isSelectDate = false;
+  bool isSelectDateReturn = false;
+
   String finalDate = "";
   bool isT = false;
   int? stateid;
@@ -46,12 +50,15 @@ class _ChildTripState extends State<ChildTrip> {
   List<Datumx>? xStates;
   List<Datum>? xterminal;
   List<Datumxx>? fleeetx;
+  bool showReturn = false;
+  bool showReturnData = false;
   TextEditingController triptypeC = TextEditingController();
   TextEditingController bookingC = TextEditingController();
   TextEditingController stateC = TextEditingController();
   TextEditingController destinationC = TextEditingController();
   TextEditingController terminalC = TextEditingController();
   TextEditingController departureC = TextEditingController();
+  TextEditingController returnC = TextEditingController();
   TextEditingController carC = TextEditingController();
   final _format = NumberFormat("#,###,000.00");
 
@@ -78,6 +85,26 @@ class _ChildTripState extends State<ChildTrip> {
               sbHeight(mqHeight(context, .02)),
               pageTitle(context, "Book a trip as a minor"),
               sbHeight(mqHeight(context, .03)),
+              dText("Departure Date", mqHeight(context, .017)),
+              sbHeight(mqHeight(context, .01)),
+              guoFormField(
+                context,
+                mqHeight(context, .05),
+                mqWidth(context, .5),
+                containercolor: guocolor.white,
+                showBorder: false,
+                showRadius: true,
+                radiusborder: true,
+                onT: () {
+                  _selectDepatureDate(context);
+                },
+                isnext: true,
+                title: "DD/MM/YYYY",
+                isReadonly: true,
+                controller: departureC,
+              ),
+              sbHeight(mqHeight(context, .02)),
+
               dText("Choose Trip Type", mqHeight(context, .017)),
               sbHeight(mqHeight(context, .01)),
               guoFormField(
@@ -100,6 +127,7 @@ class _ChildTripState extends State<ChildTrip> {
                     }
                   }),
               sbHeight(mqHeight(context, .02)),
+              showReturn && showReturnData ? _showReturnCard() : sbHeight(0),
               dText("Choose Booking Type", mqHeight(context, .017)),
               sbHeight(mqHeight(context, .01)),
               guoFormField(
@@ -209,25 +237,25 @@ class _ChildTripState extends State<ChildTrip> {
               //   title: "Enter",
               //   //  controller: cityc,
               // ),
-              sbHeight(mqHeight(context, .02)),
-              dText("Departure Date", mqHeight(context, .017)),
-              sbHeight(mqHeight(context, .01)),
-              guoFormField(
-                context,
-                mqHeight(context, .05),
-                mqWidth(context, .5),
-                containercolor: guocolor.white,
-                showBorder: false,
-                showRadius: true,
-                radiusborder: true,
-                onT: () {
-                  _selectDepatureDate(context);
-                },
-                isnext: true,
-                title: "DD/MM/YYYY",
-                isReadonly: true,
-                controller: departureC,
-              ),
+              //  sbHeight(mqHeight(context, .02)),
+              // dText("Departure Date", mqHeight(context, .017)),
+              // sbHeight(mqHeight(context, .01)),
+              // guoFormField(
+              //   context,
+              //   mqHeight(context, .05),
+              //   mqWidth(context, .5),
+              //   containercolor: guocolor.white,
+              //   showBorder: false,
+              //   showRadius: true,
+              //   radiusborder: true,
+              //   onT: () {
+              //     _selectDepatureDate(context);
+              //   },
+              //   isnext: true,
+              //   title: "DD/MM/YYYY",
+              //   isReadonly: true,
+              //   controller: departureC,
+              //  ),
               sbHeight(mqHeight(context, .02)),
               dText("Select Car Type", mqHeight(context, .017)),
               sbHeight(mqHeight(context, .01)),
@@ -293,6 +321,34 @@ class _ChildTripState extends State<ChildTrip> {
           ),
         ),
       ),
+    );
+  }
+
+  _showReturnCard() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        //  sbHeight(mqHeight(context, .02)),
+        dText("Return Date", mqHeight(context, .017)),
+        sbHeight(mqHeight(context, .01)),
+        guoFormField(
+          context,
+          mqHeight(context, .05),
+          mqWidth(context, .5),
+          containercolor: guocolor.white,
+          showBorder: false,
+          showRadius: true,
+          radiusborder: true,
+          onT: () {
+            _selectReturnDate(context);
+          },
+          isnext: true,
+          title: "DD/MM/YYYY",
+          isReadonly: true,
+          controller: returnC,
+        ),
+        sbHeight(mqHeight(context, .02)),
+      ],
     );
   }
 
@@ -437,6 +493,21 @@ class _ChildTripState extends State<ChildTrip> {
               onTap: () {
                 setState(() {
                   triptypeC.text = xtrips.tripx!;
+                  if (triptypeC.text.contains("Round")) {
+                    setState(() {
+                      showReturn = true;
+                      _selectReturnDate(context);
+                      //    closeAction(context);
+                    });
+
+                    showReturn ? _selectReturnDate(context) : null;
+                    print(showReturn);
+                  } else {
+                    setState(() {
+                      showReturn = false;
+                    });
+                    print(showReturn);
+                  }
                   closeAction(context);
                 });
               },
@@ -461,7 +532,7 @@ class _ChildTripState extends State<ChildTrip> {
                 setState(() {
                   carC.text = x.name!;
                   vehicleid = x.id;
-                  amount =x.price.toDouble().toInt();
+                  amount = x.price.toDouble().toInt();
                   closeAction(context);
                 });
               },
@@ -549,6 +620,8 @@ class _ChildTripState extends State<ChildTrip> {
                 setState(() {
                   bookingC.text = xbook.bookx!;
                   closeAction(context);
+
+                  print(showReturn);
                 });
               },
               child: dText(xbook.bookx!, mqHeight(context, .015))),
@@ -598,6 +671,23 @@ class _ChildTripState extends State<ChildTrip> {
         isSelectDate = true;
         selectedDeliveryDate = selected;
         departureC.text = DateFormat("MMMM dd, yyyy").format(selected);
+      });
+  }
+
+  void _selectReturnDate(BuildContext context) async {
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: selectedReturnDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2035),
+    );
+    if (selected != null)
+      setState(() {
+        isSelectDateReturn = true;
+        selectedReturnDate = selected;
+        showReturnData = true;
+        returnC.text = DateFormat("MMMM dd, yyyy").format(selected);
+        closeAction(context);
       });
   }
 }

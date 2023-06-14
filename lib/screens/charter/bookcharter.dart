@@ -1,26 +1,21 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:guomobile/constant/colors.dart';
-
 import 'package:guomobile/hooks/servicehooks/hookservice.dart';
 import 'package:guomobile/navigators/navigation.dart';
 import 'package:guomobile/screens/charter/charterdetails.dart';
-
 import 'package:guomobile/services/terminalbloc.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../hooks/appbars/appbar.dart';
 import '../../hooks/buttons/buttons.dart';
 import '../../hooks/formfields/formfields.dart';
 import '../../hooks/layout/mediaqueries.dart';
 import '../../hooks/text/text.dart';
 import '../../models/cars.dart';
-import '../../models/terminals.dart';
 
 class BookCharter extends StatefulWidget {
   const BookCharter({super.key});
@@ -31,11 +26,8 @@ class BookCharter extends StatefulWidget {
 
 class _BookCharterState extends State<BookCharter> {
   final _format = NumberFormat("#,###,000.00");
-
   List<Datumxx>? fleeetx;
-
   bool isSelelcted = false;
-
   @override
   void initState() {
     Provider.of<TerminalBloc>(context, listen: false).isloading = true;

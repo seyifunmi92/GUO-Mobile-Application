@@ -235,12 +235,7 @@ class _BookCharterState extends State<BookCharter> {
     print(xx);
     if (xx["success"] == true) {
       closeAction(context);
-      mynextScreen(
-          context,
-          Payment(
-            amount: widget.fee,
-            email: emailC.text,
-          ));
+      mynextScreen(context, CharterSuccess());
     } else {
       closeAction(context);
       toast(xx["message"]);

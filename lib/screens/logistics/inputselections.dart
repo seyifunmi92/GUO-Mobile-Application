@@ -39,6 +39,8 @@ class InputSelections extends StatefulWidget {
   bool? isInstant;
   bool? isScheduled;
   bool? isflexibleschedule;
+  DateTime? pickUpDate;
+  String? senderEmail;
 
   InputSelections(
       {this.dispatchType,
@@ -53,7 +55,9 @@ class InputSelections extends StatefulWidget {
       this.scheduledDate,
       this.isInstant,
       this.isScheduled,
-      this.isflexibleschedule});
+      this.isflexibleschedule,
+      this.pickUpDate,
+      this.senderEmail});
 
   @override
   State<InputSelections> createState() => _InputSelectionsState();
@@ -116,7 +120,7 @@ class _InputSelectionsState extends State<InputSelections> {
         ? guoLoader()
         : Scaffold(
             backgroundColor: guocolor.offWhite,
-            appBar: guoAppBar(context, "Input Selection"),
+            appBar: guoAppBar(context, "Input Selection",),
             body: Padding(
               padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
               child: SingleChildScrollView(
@@ -487,6 +491,8 @@ class _InputSelectionsState extends State<InputSelections> {
               isInstant: widget.isInstant,
               isScheduled: widget.isScheduled,
               flexibleSchedule: widget.isflexibleschedule,
+              pickupDate: widget.pickUpDate,
+              email: widget.senderEmail,
             ))
         : null;
   }

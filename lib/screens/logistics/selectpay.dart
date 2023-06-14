@@ -6,8 +6,10 @@ import 'package:guomobile/constant/colors.dart';
 import 'package:guomobile/hooks/appbars/appbar.dart';
 import 'package:guomobile/hooks/containers/container.dart';
 import 'package:guomobile/hooks/dialog/loader.dart';
+import 'package:guomobile/hooks/dialog/showmessage.dart';
 import 'package:guomobile/hooks/layout/mediaqueries.dart';
 import 'package:guomobile/navigators/navigation.dart';
+import 'package:guomobile/screens/home/home.dart';
 import 'package:guomobile/screens/logistics/inputselections.dart';
 import 'package:guomobile/screens/logistics/paymentstatus.dart';
 import 'package:guomobile/services/walletbloc.dart';
@@ -127,7 +129,9 @@ class _SelectPayState extends State<SelectPay> {
               fontColor: guocolor.primaryColor,
               showBorder: true,
               onT: () {
-                closeAction(context);
+                mynextScreen(context, Home("x", "", ""));
+                //  guoAlert(context, "Pay at station mode has been activated");
+                //  closeAction(context);
                 // mynextScreen(context, InputSelections());
               },
             ),

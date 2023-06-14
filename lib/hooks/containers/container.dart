@@ -6,6 +6,9 @@ import 'package:guomobile/constant/colors.dart';
 import 'package:guomobile/hooks/buttons/buttons.dart';
 import 'package:guomobile/hooks/text/text.dart';
 import 'package:guomobile/navigators/navigation.dart';
+import 'package:provider/provider.dart';
+import '../../providers/sharedstorage/localstorage.dart';
+import '../../screens/auth/login/login.dart';
 import '../layout/mediaqueries.dart';
 
 Widget uploadImageContainer(BuildContext context, String body) {
@@ -77,9 +80,9 @@ dispatchCircle(String content, bool isCompleted) {
     ),
   );
 }
- 
 
-TripContainer(BuildContext context, {Widget? xArray, String header = "Select Trip Type"}) {
+TripContainer(BuildContext context,
+    {Widget? xArray, String header = "Select Trip Type"}) {
   return Scaffold(
     backgroundColor: guocolor.transparent,
     body: Padding(
@@ -158,32 +161,88 @@ Widget shadowContainer(BuildContext context, double height, double width,
     ),
   );
 }
-paymentCard(BuildContext context, String title, {String? image,void Function()? onT}) {
-    return InkWell(
-      onTap: onT,
-      child: Container(
-        height: mqHeight(context, .18),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: guocolor.white),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                dText(title, mqHeight(context, .03)),
-                Image.asset(
-                  image!,
-                  height: mqHeight(context, .05),
-                )
-              ],
-            ),
+
+logoutcontainer(BuildContext context) {
+  return Scaffold(
+    backgroundColor: guocolor.transparent,
+    bottomNavigationBar: Container(
+      height: mqHeight(context, .4),
+      width: mqWidth(context, 1),
+      color: guocolor.white,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
+        child: Column(
+          children: [
+            sbHeight(mqHeight(context, .1)),
+            dText("Are you sure you want to log out?", mqHeight(context, .03)),
+            sbHeight(mqHeight(context, .1)),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .05)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  straightButton("No", mqHeight(context, .05),
+                      mqWidth(context, .1), guocolor.primaryColor, 20,
+                      fontColor: guocolor.white, onT: () {
+                    closeAction(context);
+                  }),
+                  straightButton("Yes", mqHeight(context, .05),
+                      mqWidth(context, .1), guocolor.whiteGrey, 20, onT: () {
+                    Provider.of<LocalStorageBloc>(context, listen: false)
+                        .refreshapp();
+                    mynextScreen(
+                        context,
+                        Login(
+                          islogout: true,
+                        ));
+                  })
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+logoutnotice() {
+  return Scaffold(
+    backgroundColor: guocolor.transparent,
+    body: Center(
+        child: Container(
+      color: guocolor.white,
+    )),
+  );
+}
+
+paymentCard(BuildContext context, String title,
+    {String? image, void Function()? onT}) {
+  return InkWell(
+    onTap: onT,
+    child: Container(
+      height: mqHeight(context, .18),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20), color: guocolor.white),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
+        child: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              dText(title, mqHeight(context, .03)),
+              Image.asset(
+                image!,
+                height: mqHeight(context, .05),
+              )
+            ],
           ),
         ),
       ),
-    );
-
+    ),
+  );
 }
+
 Widget shadowContainer2(
     BuildContext context,
     double height,
@@ -461,6 +520,42 @@ Widget containSet(
     ),
   );
 }
+Widget containSet2(
+    BuildContext context, String title, String subTitle, String icon,
+    {void Function()? onT}) {
+  return InkWell(
+    onTap: onT,
+    child: Container(
+      height: mqHeight(context, .1),
+      width: totalWidth(context),
+      decoration: BoxDecoration(
+        color: guocolor.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
+        child: Center(
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            circle3(context, icon),
+            sbWidth(mqWidth(context, .02)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                sbHeight(mqHeight(context, .031)),
+                dText(title, mqHeight(context, .019)),
+                sbHeight(mqHeight(context, .001)),
+                dText(subTitle, mqHeight(context, .013),
+                    color: guocolor.black.withOpacity(.5)),
+              ],
+            )
+          ],
+        )),
+      ),
+    ),
+  );
+}
 
 Widget dContain2(
     BuildContext context, String content, Color color, String image) {
@@ -595,6 +690,17 @@ Widget circle2(BuildContext context, IconData icon) {
       icon,
       color: guocolor.primaryColor,
       size: mqHeight(context, .02),
+    ),
+  );
+}
+Widget circle3(BuildContext context, String icon) {
+  return CircleAvatar(
+    radius: 20,
+    backgroundColor: Color(0xffE4ECF2).withOpacity(.5),
+    child: Image.asset(
+      icon,
+     //color: guocolor.primaryColor,
+      height: mqHeight(context, .03),
     ),
   );
 }

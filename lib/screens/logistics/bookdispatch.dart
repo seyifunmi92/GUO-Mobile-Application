@@ -24,8 +24,12 @@ class BookDispatch extends StatefulWidget {
 
 class _BookDispatchState extends State<BookDispatch> {
   DateTime selectedDeliveryDate = DateTime.now();
+  DateTime selectedPickupDate = DateTime.now();
+
   bool isSelectDate = false;
+  bool isSelectDatePickup = false;
   String finalDate = "";
+  String finalDatePickUp = "";
   bool doorSelelcted = false;
   bool terminalselected = false;
   bool isexpress = false;
@@ -36,10 +40,11 @@ class _BookDispatchState extends State<BookDispatch> {
   String validationmessage = "";
   String phoneValidationmessge = "";
   String phoneValidationmessge2 = "";
-
+  String emailValidation = "";
   TextEditingController pickupTerminalc = TextEditingController();
   TextEditingController pickupstatec = TextEditingController();
   TextEditingController sendernamec = TextEditingController();
+  TextEditingController xEmail = TextEditingController();
   TextEditingController senderphonec = TextEditingController();
   TextEditingController addressc = TextEditingController();
   TextEditingController daddressc = TextEditingController();
@@ -200,9 +205,30 @@ class _BookDispatchState extends State<BookDispatch> {
               title: "Oluwaseyi",
               controller: sendernamec,
             ),
+            sbHeight(mqHeight(context, .02)),
+            dText("Sender Email", mqHeight(context, .018)),
+            sbHeight(mqHeight(context, .01)),
+            guoFormField(
+              context,
+              mqHeight(context, .05),
+              mqWidth(context, .5),
+              containercolor: guocolor.white,
+              showBorder: false,
+              showRadius: true,
+              radiusborder: true,
+              onT: () {
+                setState(() {
+                  Provider.of<ValidationBloc>(context, listen: false)
+                      .validEmail = true;
+                });
+              },
+              isnext: true,
+              title: "Oluwaseyi@nerdbug.io",
+              controller: xEmail,
+            ),
             sbHeight(mqHeight(context, .005)),
-            !Provider.of<ValidationBloc>(context, listen: false).validsendername
-                ? dText(validationmessage, mqHeight(context, .012),
+            !Provider.of<ValidationBloc>(context, listen: false).validEmail
+                ? dText(emailValidation, mqHeight(context, .012),
                     color: guocolor.red.withOpacity(.7))
                 : dText("", 0),
             sbHeight(mqHeight(context, .02)),
@@ -377,11 +403,14 @@ class _BookDispatchState extends State<BookDispatch> {
             sbHeight(mqHeight(context, .01)),
             showAlternatePhone2 ? alternatePhoneCustom() : emptyString(),
             isschedule && isSelectDate ? _dateCustom() : emptyString(),
-            sbHeight(mqHeight(context, .02)),
+            sbHeight(mqHeight(context, .01)),
+            isschedule && isSelectDate ? _pickupDateCustom() : emptyString(),
+            isschedule ? sbHeight(mqHeight(context, .02)) : sbHeight(0),
             Row(
               children: [
                 tickCircle(isexpress ? true : false, onT: () {
                   setState(() {
+                    isSelectDate = false;
                     isexpress = true;
                     isschedule = false;
                   });
@@ -436,6 +465,35 @@ class _BookDispatchState extends State<BookDispatch> {
           ]),
         ),
       ),
+    );
+  }
+
+  Widget _pickupDateCustom() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        sbHeight(mqHeight(context, .02)),
+        dText("PickUpDate", mqHeight(context, .018)),
+        sbHeight(mqHeight(context, .01)),
+        guoFormField(
+          context,
+          mqHeight(context, .05),
+          mqWidth(context, .5),
+          containercolor: guocolor.white,
+          showBorder: false,
+          showRadius: true,
+          isReadonly: true,
+          radiusborder: true,
+          onT: () {
+            setState(() {
+              _selectPickUpDate(context);
+            });
+          },
+          isnext: true,
+          isInt: true,
+          title: finalDatePickUp,
+        ),
+      ],
     );
   }
 
@@ -527,6 +585,7 @@ class _BookDispatchState extends State<BookDispatch> {
     _validatedropoffcity();
     _validatereceivername();
     _validatereceiversPhone();
+    _validationEmail();
 
     Provider.of<ValidationBloc>(context, listen: false).validPickupTerminal &&
             Provider.of<ValidationBloc>(context, listen: false)
@@ -540,7 +599,8 @@ class _BookDispatchState extends State<BookDispatch> {
             Provider.of<ValidationBloc>(context, listen: false)
                 .validreceivername &&
             Provider.of<ValidationBloc>(context, listen: false)
-                .validreceiverphone
+                .validreceiverphone &&
+            Provider.of<ValidationBloc>(context, listen: false).validEmail
         ? mynextScreen(
             context,
             InputSelections(
@@ -559,6 +619,8 @@ class _BookDispatchState extends State<BookDispatch> {
               isInstant: isexpress ? true : false,
               isScheduled: isschedule ? true : false,
               isflexibleschedule: flexibleDate ? true : false,
+              pickUpDate: isschedule ? selectedPickupDate : null,
+              senderEmail: xEmail.text,
             ))
         : null;
   }
@@ -574,6 +636,32 @@ class _BookDispatchState extends State<BookDispatch> {
       setState(() {
         Provider.of<ValidationBloc>(context, listen: false)
             .validPickupTerminal = true;
+      });
+    }
+  }
+
+  _validationEmail() {
+    RegExp xRegex = RegExp(
+        Provider.of<ValidationBloc>(context, listen: false).emailValidation);
+    if (!xRegex.hasMatch(xEmail.text) && !xEmail.text.isEmpty) {
+      setState(() {
+        emailValidation = "Please enter a valid email";
+        Provider.of<ValidationBloc>(context, listen: false).validEmail = false;
+      });
+    } else if (xEmail.text.length <= 11 && !xEmail.text.isEmpty) {
+      setState(() {
+        emailValidation = "Please enter a valid email";
+        Provider.of<ValidationBloc>(context, listen: false).validEmail = false;
+      });
+    } else if (xEmail.text.isEmpty) {
+      setState(() {
+        emailValidation = "Email cant be empty";
+        Provider.of<ValidationBloc>(context, listen: false).validEmail = false;
+      });
+    } else {
+      setState(() {
+        Provider.of<ValidationBloc>(context, listen: false).hideKey(context);
+        Provider.of<ValidationBloc>(context, listen: false).validEmail = true;
       });
     }
   }
@@ -724,6 +812,21 @@ class _BookDispatchState extends State<BookDispatch> {
         isSelectDate = true;
         selectedDeliveryDate = selected;
         finalDate = DateFormat("MMMM dd, yyyy").format(selected);
+      });
+  }
+
+  void _selectPickUpDate(BuildContext context) async {
+    final DateTime? selected = await showDatePicker(
+      context: context,
+      initialDate: selectedDeliveryDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2035),
+    );
+    if (selected != null)
+      setState(() {
+        isSelectDatePickup = true;
+        selectedPickupDate = selected;
+        finalDatePickUp = DateFormat("MMMM dd, yyyy").format(selected);
       });
   }
 }

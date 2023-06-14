@@ -99,7 +99,7 @@ class _OnboardingState extends State<Onboarding> {
                     fontSize: mqHeight(context, .022),
                     fontColor: guocolor.accent,
                     onT: () {
-                      mynextScreenPop(context, const Login());
+                      mynextScreenPop(context, Login());
                     },
                   ),
                 )

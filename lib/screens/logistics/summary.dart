@@ -48,6 +48,8 @@ class Summarys extends StatefulWidget {
   bool? isInstant;
   bool? isScheduled;
   bool? flexibleSchedule;
+  DateTime? pickupDate;
+  String? email;
 
   Summarys(
       {this.dispatchType,
@@ -74,7 +76,9 @@ class Summarys extends StatefulWidget {
       this.type,
       this.isInstant,
       this.isScheduled,
-      this.flexibleSchedule});
+      this.flexibleSchedule,
+      this.pickupDate,
+      this.email});
 
   @override
   State<Summarys> createState() => _SummarysState();
@@ -108,7 +112,7 @@ class _SummarysState extends State<Summarys> {
   @override
   void initState() {
     Provider.of<LogisticsBloc>(context, listen: false).isloading = true;
-
+    print("we don dey here bro");
     _checkGps();
     getList();
     super.initState();
@@ -116,10 +120,12 @@ class _SummarysState extends State<Summarys> {
 
   @override
   Widget build(BuildContext context) {
+    print("we don dey here bro");
     // closeAction(context);
     return Scaffold(
-      backgroundColor: guocolor.offWhite,
-      appBar: guoAppBar(context, "Summary", showElevation: false),
+      backgroundColor: guocolor.background,
+      appBar:
+          guoAppBar(context, "Summary", showElevation: false, showBack: true),
       body: Provider.of<LogisticsBloc>(context, listen: false).isloading
           ? Loaderx(ImageClass.loader)
           : SingleChildScrollView(
@@ -312,11 +318,13 @@ class _SummarysState extends State<Summarys> {
           latitude,
           widget.senderName!,
           widget.senderPhone!,
+          widget.email!,
           widget.dropOffAddress!,
           "10",
           "10",
           widget.receiverName!,
           widget.receiverPhone!,
+          "",
           "",
           "",
           "",
@@ -326,6 +334,7 @@ class _SummarysState extends State<Summarys> {
           widget.itemQuantity!,
           widget.itemWeight!,
           widget.itemValue!,
+          "",
           widget.category!,
           widget.subCategory!,
           widget.width!,
@@ -334,11 +343,13 @@ class _SummarysState extends State<Summarys> {
           widget.type!,
           xBal,
           userId,
+          widget.pickupDate!,
         )
         .then((value) => outputxx(value));
   }
 
   outputxx(String responsex) {
+    print("arabeee");
     print(responsex);
     var x = jsonDecode(responsex);
     if (x["success"] == true) {
@@ -389,5 +400,6 @@ class _SummarysState extends State<Summarys> {
     setState(() {
       userId = xx!;
     });
+    print("arageeee $userId");
   }
 }

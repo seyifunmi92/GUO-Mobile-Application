@@ -34,6 +34,7 @@ class SeatDetails extends StatefulWidget {
   int id;
   String price;
   String? depatureState;
+  String? depatureT;
   String? destination;
   DateTime? depatureDate;
   int? passengers;
@@ -41,6 +42,7 @@ class SeatDetails extends StatefulWidget {
   bool? isWestCoast;
   SeatDetails(this.id, this.price,
       {this.depatureState,
+      this.depatureT,
       this.destination,
       this.depatureDate,
       this.passengers,
@@ -193,7 +195,8 @@ class _SeatDetailsState extends State<SeatDetails> {
                         true,
                       ),
                       sbWidth(mqWidth(context, .01)),
-                      dText("Available seats", mqHeight(context, .017)),
+                      dText("Available seats : ${xFleet!.data!.seats}",
+                          mqHeight(context, .017)),
                     ],
                   ),
                   sbHeight(mqHeight(context, .01)),
@@ -232,11 +235,13 @@ class _SeatDetailsState extends State<SeatDetails> {
                             price: widget.price,
                             id: widget.id,
                             depatureState: widget.depatureState,
+                            depatureT: widget.depatureT,
                             destination: widget.destination,
                             depatureDate: widget.depatureDate,
                             passengers: widget.passengers,
                             isLocalTrip: widget.isLocalTrip,
                             isWestCoast: widget.isWestCoast,
+                            seatNumber: xFleet!.data!.seats,
                           ));
                     },
                   ),

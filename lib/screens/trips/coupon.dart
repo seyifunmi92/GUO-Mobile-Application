@@ -34,20 +34,24 @@ class Coupon extends StatefulWidget {
   String? price;
   int? id;
   String? depatureState;
+  String? depatureT;
   String? destination;
   DateTime? depatureDate;
   int? passengers;
   bool? isLocalTrip;
   bool? isWestCoast;
+  int? seatNumber;
   Coupon(
       {this.price,
       this.id,
       this.depatureState,
+      this.depatureT,
       this.destination,
       this.depatureDate,
       this.passengers,
       this.isLocalTrip,
-      this.isWestCoast});
+      this.isWestCoast,
+      this.seatNumber});
 
   @override
   State<Coupon> createState() => _CouponState();
@@ -126,6 +130,7 @@ class _CouponState extends State<Coupon> {
                     TripSummary(
                       price: widget.price,
                       id: widget.id,
+                      busType: widget.depatureT,
                       depatureState: widget.depatureState,
                       destination: widget.destination,
                       depatureDate: widget.depatureDate,

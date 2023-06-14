@@ -75,11 +75,13 @@ class LogisticsBloc extends ChangeNotifier {
     String latitude,
     String senderName,
     String senderPhoneNumber,
+    String senderEmail,
     String daddress,
     String dlongitude,
     String dlatitude,
     String receiverName,
     String receiverPhoneNumber,
+    String receiverEmail,
     String phone1,
     String phone2,
     String phone3,
@@ -89,6 +91,7 @@ class LogisticsBloc extends ChangeNotifier {
     int itemQuantity,
     int itemWeight,
     int itemValue,
+    String itemName,
     int category,
     int subCategory,
     int width,
@@ -97,6 +100,7 @@ class LogisticsBloc extends ChangeNotifier {
     String type,
     int amount,
     int userId,
+    DateTime pickUpDate,
   ) async {
     SharedPreferences _shared = await SharedPreferences.getInstance();
     String? sessionID = _shared.getString("token");
@@ -115,6 +119,7 @@ class LogisticsBloc extends ChangeNotifier {
         },
         "senderName": senderName,
         "senderPhoneNumber": senderPhoneNumber,
+        "senderEmail": senderEmail,
         "dropOffAddress": {
           "address": daddress,
           "longitude": dlongitude,
@@ -129,15 +134,27 @@ class LogisticsBloc extends ChangeNotifier {
         "itemQuantity": itemQuantity,
         "itemWeight": itemWeight,
         "itemValue": itemValue,
-        "category": category,
-        "subCategory": subCategory,
+        "items": [
+          {
+            "name": itemName,
+            "category": category,
+            "subCategory": subCategory,
+          },
+             {
+            "name": itemName,
+            "category": category,
+            "subCategory": subCategory,
+          }
+        ],
         "width": width,
         "height": height,
         "description": description,
         "type": type,
         "amount": amount,
         "userId": userId,
+        "pickUpDate": pickUpDate.toIso8601String()
       };
+      print("oluwseyimii");
       print(xData);
       var url = Uri.parse(BaseUrl + createOrderResource);
       final xResponse = await http.post(url,
@@ -146,6 +163,8 @@ class LogisticsBloc extends ChangeNotifier {
       print(url);
       if (xResponse.statusCode == 200) {
         print(xResponse.body);
+        print(xResponse.statusCode);
+
         return xResponse.body;
       } else {
         print(xResponse.body);
@@ -272,3 +291,50 @@ class LogisticsBloc extends ChangeNotifier {
     }
   }
 }
+
+
+
+// //create a class T
+// class T {
+//   String? x;
+//   T(this.x);
+// }
+// List xList = [
+//   T("data"),
+// ];
+// //creating a function to take the list
+
+// listFunction(List<T> x) {
+//   if (x.isNotEmpty) {
+//     return x;
+//   }
+//   //x == List<T>
+// }
+
+
+// class NameList extends StatefulWidget {
+//   const NameList({super.key});
+
+//   @override
+//   State<NameList> createState() => _NameListState();
+// }
+
+// class _NameListState extends State<NameList> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: ListView(
+//         children: 
+//         //  Repository().getNames().map("e").toList();
+
+       
+//       ),
+//     );
+//   }
+  
+// }
+
+// abstract class Repository {
+//   factory Repository() => RepositoryImpl();
+//   Iterable<String> getNames();
+// }

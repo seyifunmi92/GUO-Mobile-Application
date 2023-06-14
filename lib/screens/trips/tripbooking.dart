@@ -7,6 +7,7 @@ import 'package:guomobile/asset/imageclass.dart';
 import 'package:guomobile/constant/colors.dart';
 import 'package:guomobile/hooks/containers/container.dart';
 import 'package:guomobile/hooks/dialog/loader.dart';
+import 'package:guomobile/hooks/dialog/showmessage.dart';
 import 'package:guomobile/hooks/servicehooks/hookservice.dart';
 import 'package:guomobile/models/states.dart';
 import 'package:guomobile/navigators/navigation.dart';
@@ -16,6 +17,7 @@ import 'package:guomobile/screens/trips/selectseats.dart';
 import 'package:guomobile/services/accountbloc.dart';
 import 'package:guomobile/services/terminalbloc.dart';
 import 'package:intl/intl.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -52,6 +54,7 @@ class _TripBookingState extends State<TripBooking> {
   List<Datumx>? xStates;
   List<Datum>? xterminal;
   List<Datumxx>? fleeetx;
+  bool oneClicked = false;
 
   @override
   void initState() {
@@ -63,7 +66,7 @@ class _TripBookingState extends State<TripBooking> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: guoTripDrawer(context),
+      drawer: guoTripDrawer(context, onT: _nav),
       key: _scaffoldKey,
       backgroundColor: guocolor.offWhite,
       appBar: guoAppBar(context, "Book A Trip", showElevation: false),
@@ -201,16 +204,34 @@ class _TripBookingState extends State<TripBooking> {
   }
 
   _nav() {
-    mynextScreen(
-        context,
-        SelectSeats(
-          depatureState: stateC.text,
-          destination: destinationC.text,
-          depatureDate: selectedDeliveryDate,
-          passengers: int.parse(passengerC.text),
-          isLocalTrip: isLocalTrip ? true : false,
-          isWestCoast: isWestCoast ? true : false,
-        ));
+    if (!stateC.text.isEmpty &&
+        !destinationC.text.isEmpty &&
+        isSelectDate &&
+        !passengerC.text.isEmpty &&
+        oneClicked &&
+        isdeparturTerminal &&
+        istc) {
+      mynextScreen(
+          context,
+          SelectSeats(
+            depatureState: stateC.text,
+            destination: destinationC.text,
+            depatureDate: selectedDeliveryDate,
+            passengers: int.parse(passengerC.text),
+            isLocalTrip: isLocalTrip ? true : false,
+            isWestCoast: isWestCoast ? true : false,
+          ));
+    } else if (!stateC.text.isEmpty &&
+        !destinationC.text.isEmpty &&
+        isSelectDate &&
+        !passengerC.text.isEmpty &&
+        oneClicked &&
+        isdeparturTerminal &&
+        !istc) {
+      gToast("Please accept terms and conditions to proceed");
+    } else {
+      gToast("Please fill all details to proceed");
+    }
   }
 
   _showDrawer() {
@@ -226,6 +247,8 @@ class _TripBookingState extends State<TripBooking> {
       } else {
         setState(() {
           isLocalTrip = true;
+          isWestCoast = false;
+          oneClicked = true;
         });
       }
     });
@@ -268,6 +291,8 @@ class _TripBookingState extends State<TripBooking> {
       } else {
         setState(() {
           isWestCoast = true;
+          isLocalTrip = false;
+          oneClicked = true;
         });
       }
     });

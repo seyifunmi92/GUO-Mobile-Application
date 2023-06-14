@@ -31,6 +31,7 @@ import '../../models/terminals.dart';
 
 class SelectSeats extends StatefulWidget {
   String? depatureState;
+  String? depatureT;
   String? destination;
   DateTime? depatureDate;
   int? passengers;
@@ -38,6 +39,7 @@ class SelectSeats extends StatefulWidget {
   bool? isWestCoast;
   SelectSeats(
       {this.depatureState,
+      this.depatureT,
       this.destination,
       this.depatureDate,
       this.passengers,
@@ -74,7 +76,11 @@ class _SelectSeatsState extends State<SelectSeats> {
         ? guoLoader()
         : Scaffold(
             backgroundColor: guocolor.offWhite,
-            appBar: guoAppBar(context, "Select Seats", showElevation: false),
+            appBar: guoAppBar(
+              context,
+              "Select Seats",
+              showElevation: false,
+            ),
             body: SingleChildScrollView(
               child: Padding(
                 padding:
@@ -159,6 +165,7 @@ class _SelectSeatsState extends State<SelectSeats> {
                 x.price!,
                 depatureState: widget.depatureState,
                 destination: widget.destination,
+                depatureT: x.name,
                 depatureDate: widget.depatureDate,
                 passengers: widget.passengers,
                 isLocalTrip: widget.isLocalTrip,

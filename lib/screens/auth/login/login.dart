@@ -9,6 +9,7 @@ import 'package:guomobile/providers/sharedstorage/localstorage.dart';
 import 'package:guomobile/screens/auth/signup/signup.dart';
 import 'package:guomobile/screens/home/home.dart';
 import 'package:guomobile/services/accountbloc.dart';
+import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../asset/imageclass.dart';
@@ -20,7 +21,8 @@ import '../../../providers/callfunctions/providerbloc.dart';
 import '../forgotpassword/forgotpass.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  bool? islogout;
+  Login({this.islogout});
 
   @override
   State<Login> createState() => _LoginState();
@@ -42,6 +44,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    _checkLog();
     return Scaffold(
       backgroundColor: guocolor.offWhite,
       appBar: guoAppBar(context, "Login",
@@ -188,6 +191,17 @@ class _LoginState extends State<Login> {
         isname = true;
         name = nameT;
       });
+    }
+  }
+
+  _checkLog() {
+    if (widget.islogout == true) {
+      setState(() {
+        toast("Log Out Successful");
+        widget.islogout = false;
+      });
+
+      // Provider.of<ProviderBloc>(context, listen: false).logoutnotice(context);
     }
   }
 

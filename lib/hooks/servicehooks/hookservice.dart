@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:guomobile/constant/colors.dart';
 import 'package:guomobile/hooks/appbars/appbar.dart';
 import 'package:guomobile/hooks/layout/mediaqueries.dart';
+import 'package:guomobile/providers/callfunctions/providerbloc.dart';
+import 'package:guomobile/screens/help/help.dart';
 import 'package:guomobile/screens/nearme/terminalbyid.dart';
 import 'package:guomobile/screens/orders/orderhistory.dart';
 import 'package:guomobile/screens/refferals/refferal.dart';
@@ -18,6 +22,7 @@ import '../../navigators/navigation.dart';
 import '../../providers/sharedstorage/localstorage.dart';
 import '../../screens/auth/login/login.dart';
 import '../../screens/profile/profile.dart';
+import '../buttons/buttons.dart';
 import '../containers/container.dart';
 import '../dialog/loader.dart';
 import '../formfields/formfields.dart';
@@ -253,9 +258,21 @@ Widget dashContainerWallet(BuildContext context, String tripDestination,
                 fontweight: FontWeight.w600, color: guocolor.white),
             sbHeight(mqHeight(context, .012)),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 dText(balance, mqHeight(context, .023),
                     fontweight: FontWeight.w700, color: guocolor.white),
+                Container(
+                  height: mqHeight(context, .03),
+                  width: mqWidth(context, .1),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: guocolor.white),
+                  child: Center(
+                    child: dText("Fund Wallet", mqHeight(context, .013),
+                        color: guocolor.primaryColor),
+                  ),
+                ),
               ],
             ),
           ]),
@@ -398,7 +415,7 @@ Widget guoDrawer(BuildContext context, String image, String name,
               onTap: () {
                 mynextScreen(context, Refferals());
               },
-              child: dText("Refferals", mqHeight(context, .019),
+              child: dText("Referral", mqHeight(context, .019),
                   color: guocolor.black.withOpacity(.7)),
             ),
           ],
@@ -430,8 +447,13 @@ Widget guoDrawer(BuildContext context, String image, String name,
               height: mqHeight(context, .018),
             ),
             sbWidth(mqWidth(context, .025)),
-            dText("Help", mqHeight(context, .019),
-                color: guocolor.black.withOpacity(.7)),
+            InkWell(
+              onTap: () {
+                mynextScreen(context, Help());
+              },
+              child: dText("Help", mqHeight(context, .019),
+                  color: guocolor.black.withOpacity(.7)),
+            ),
           ],
         ),
         sbHeight(mqHeight(context, .071)),
@@ -463,9 +485,8 @@ Widget guoDrawer(BuildContext context, String image, String name,
             sbWidth(mqWidth(context, .025)),
             InkWell(
               onTap: () {
-                Provider.of<LocalStorageBloc>(context, listen: false)
-                    .refreshapp();
-                mynextScreen(context, Login());
+                Provider.of<ProviderBloc>(context, listen: false)
+                    .showLogout(context);
               },
               child: dText("Log Out", mqHeight(context, .019),
                   color: guocolor.black.withOpacity(.7)),
@@ -477,154 +498,167 @@ Widget guoDrawer(BuildContext context, String image, String name,
   );
 }
 
-Widget guoTripDrawer(BuildContext context) {
+Widget guoTripDrawer(BuildContext context, {void Function()? onT}) {
   return Container(
     height: mqHeight(context, 1),
     width: mqWidth(context, .3),
     color: guocolor.white,
     child: Padding(
       padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .035)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        sbHeight(mqHeight(context, .055)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            dText("Filter by", mqHeight(context, .02)),
-            InkWell(
-              onTap: () {
-                closeAction(context);
-              },
-              child: Icon(Icons.cancel),
-            )
-          ],
-        ),
-        sbHeight(mqHeight(context, .015)),
-        dText("Purpose", mqHeight(context, .017)),
-        sbHeight(mqHeight(context, .03)),
-        Row(
-          children: [
-            tickCircle(true),
-            sbWidth(mqWidth(context, .018)),
-            InkWell(
+      child: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          sbHeight(mqHeight(context, .055)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              dText("Filter by", mqHeight(context, .02)),
+              InkWell(
                 onTap: () {
-                  mynextScreen(context, SelectSeats());
+                  closeAction(context);
                 },
-                child: dText("Transport", mqHeight(context, .017))),
-          ],
-        ),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(false),
-            sbWidth(mqWidth(context, .018)),
-            dText("Logistics", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .03)),
-        dText("Time", mqHeight(context, .017)),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(true),
-            sbWidth(mqWidth(context, .018)),
-            dText("Morning", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(false),
-            sbWidth(mqWidth(context, .018)),
-            dText("Afternoon", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(false),
-            sbWidth(mqWidth(context, .018)),
-            dText("Night", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .03)),
-        dText("Vehicle Type", mqHeight(context, .017)),
-        sbHeight(mqHeight(context, .03)),
-        Row(
-          children: [
-            tickCircle(true),
-            sbWidth(mqWidth(context, .018)),
-            dText("Morning", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(false),
-            sbWidth(mqWidth(context, .018)),
-            dText("Afternoon", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(false),
-            sbWidth(mqWidth(context, .018)),
-            dText("Night", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .03)),
-        dText("Capacity", mqHeight(context, .017)),
-        sbHeight(mqHeight(context, .03)),
-        Row(
-          children: [
-            tickCircle(true),
-            sbWidth(mqWidth(context, .018)),
-            dText("Custom (19 seats)", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(false),
-            sbWidth(mqWidth(context, .018)),
-            dText("Large (98 seats)", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(false),
-            sbWidth(mqWidth(context, .018)),
-            dText("Innoson", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .03)),
-        dText("Price Range", mqHeight(context, .017)),
-        sbHeight(mqHeight(context, .03)),
-        Row(
-          children: [
-            tickCircle(true),
-            sbWidth(mqWidth(context, .018)),
-            dText("₦8,000 - ₦10,000", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(false),
-            sbWidth(mqWidth(context, .018)),
-            dText("₦11,000 - ₦14,000", mqHeight(context, .017)),
-          ],
-        ),
-        sbHeight(mqHeight(context, .02)),
-        Row(
-          children: [
-            tickCircle(false),
-            sbWidth(mqWidth(context, .018)),
-            dText("₦15,000 - ₦20,000", mqHeight(context, .017)),
-          ],
-        ),
-      ]),
+                child: Icon(Icons.cancel),
+              )
+            ],
+          ),
+          sbHeight(mqHeight(context, .015)),
+          dText("Purpose", mqHeight(context, .017)),
+          sbHeight(mqHeight(context, .03)),
+          Row(
+            children: [
+              tickCircle(true),
+              sbWidth(mqWidth(context, .018)),
+              InkWell(
+                  onTap: () {
+                    mynextScreen(context, SelectSeats());
+                  },
+                  child: dText("Transport", mqHeight(context, .017))),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(false),
+              sbWidth(mqWidth(context, .018)),
+              dText("Logistics", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .03)),
+          dText("Time", mqHeight(context, .017)),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(true),
+              sbWidth(mqWidth(context, .018)),
+              dText("Morning", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(false),
+              sbWidth(mqWidth(context, .018)),
+              dText("Afternoon", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(false),
+              sbWidth(mqWidth(context, .018)),
+              dText("Night", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .03)),
+          dText("Vehicle Type", mqHeight(context, .017)),
+          sbHeight(mqHeight(context, .03)),
+          Row(
+            children: [
+              tickCircle(true),
+              sbWidth(mqWidth(context, .018)),
+              dText("Morning", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(false),
+              sbWidth(mqWidth(context, .018)),
+              dText("Afternoon", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(false),
+              sbWidth(mqWidth(context, .018)),
+              dText("Night", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .03)),
+          dText("Capacity", mqHeight(context, .017)),
+          sbHeight(mqHeight(context, .03)),
+          Row(
+            children: [
+              tickCircle(true),
+              sbWidth(mqWidth(context, .018)),
+              dText("Custom (19 seats)", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(false),
+              sbWidth(mqWidth(context, .018)),
+              dText("Large (98 seats)", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(false),
+              sbWidth(mqWidth(context, .018)),
+              dText("Innoson", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .03)),
+          dText("Price Range", mqHeight(context, .017)),
+          sbHeight(mqHeight(context, .03)),
+          Row(
+            children: [
+              tickCircle(true),
+              sbWidth(mqWidth(context, .018)),
+              dText("₦8,000 - ₦10,000", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(false),
+              sbWidth(mqWidth(context, .018)),
+              dText("₦11,000 - ₦14,000", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          Row(
+            children: [
+              tickCircle(false),
+              sbWidth(mqWidth(context, .018)),
+              dText("₦15,000 - ₦20,000", mqHeight(context, .017)),
+            ],
+          ),
+          sbHeight(mqHeight(context, .02)),
+          straightButton(
+            "Filter",
+            mqHeight(context, .05),
+            mqWidth(context, .5),
+            guocolor.primaryColor,
+            8,
+            fontSize: mqHeight(context, .021),
+            fontColor: guocolor.white,
+            onT: onT,
+          ),
+        ]),
+      ),
     ),
   );
 }

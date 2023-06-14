@@ -87,7 +87,6 @@ class AccountBloc extends ChangeNotifier {
       } else {
         print(xResponse.body);
         print(xResponse.statusCode);
-
         return xResponse.body;
       }
     } on SocketException catch (xError) {
