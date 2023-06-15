@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_paystack/flutter_paystack.dart';
+import 'package:flutterwave_standard/core/flutterwave.dart';
 import 'package:guomobile/asset/imageclass.dart';
 import 'package:guomobile/constant/colors.dart';
 import 'package:guomobile/hooks/containers/container.dart';
@@ -12,10 +13,12 @@ import 'package:guomobile/providers/callfunctions/providerbloc.dart';
 import 'package:guomobile/screens/auth/forgotpassword/resetsuccess.dart';
 import 'package:guomobile/screens/logistics/paymentstatus.dart';
 import 'package:guomobile/services/accountbloc.dart';
+import 'package:guomobile/services/orderservices.dart';
 import 'package:guomobile/services/terminalbloc.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../hooks/appbars/appbar.dart';
 import '../../hooks/buttons/buttons.dart';
@@ -33,6 +36,11 @@ class Payment extends StatefulWidget {
 }
 
 class _PaymentState extends State<Payment> {
+  String flutterwavePublicKey =
+      "FLWPUBK_TEST-372cd55cbcf66b4cdf3a2b26d9db5cff-X";
+  String flutterwaveSecretKey =
+      "FLWSECK_TEST-891b7c0d5c50f4ade215bd8d85b9b8d3-X";
+  String flutterwaveEncryptionKey = "FLWSECK_TESTb2fbedc60bfc";
   String publicKey = "pk_test_6a714f4dc8a4b0925ff2b904cb19401e2c31e02f";
   final plugin = PaystackPlugin();
   CheckoutResponse? xResponse;
@@ -54,7 +62,9 @@ class _PaymentState extends State<Payment> {
           children: [
             sbHeight(mqHeight(context, .02)),
             paymentCard(context, "Pay With Flutterwave",
-                image: ImageClass.flutterwave, onT: () {}),
+                image: ImageClass.flutterwave, onT: () {
+              _initializeFlutterwave();
+            }),
             sbHeight(mqHeight(context, .02)),
             paymentCard(context, "Pay With Paystack",
                 image: ImageClass.paystack, onT: () {
@@ -123,5 +133,30 @@ class _PaymentState extends State<Payment> {
         widget.email = xx;
       });
     }
+  }
+
+  _initializeFlutterwave() {
+    Provider.of<OrderBloc>(context, listen: false)
+        .flutterwavePaymentHandler(
+          context,
+          fullname: "Oluwaseyi Fatunmole",
+          phoneNumber: "08137330706",
+          email: widget.email,
+          amount: widget.amount,
+          encryptionKey: flutterwaveEncryptionKey,
+          publicKey: flutterwavePublicKey,
+          paymentOptions: "Card",
+          currency: "NGN",
+          txRef: " 'ref_${DateTime.now().millisecondsSinceEpoch}'",
+          title: "My payment",
+          description: "Payment for trip",
+          redirectUrl: "https://facebook.com",
+          isTestMode: true,
+        )
+        .then((value) => flutterwaveCheckout(value));
+  }
+
+  flutterwaveCheckout(String x) {
+    print(x);
   }
 }

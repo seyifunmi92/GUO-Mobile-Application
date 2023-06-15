@@ -661,7 +661,11 @@ Widget guoTripDrawer(BuildContext context, {void Function()? onT}) {
       ),
     ),
   );
+
+  
 }
+
+
 
 Widget pageIndicator(BuildContext context, int currentIndex,
     {Color? color, Color? color2}) {

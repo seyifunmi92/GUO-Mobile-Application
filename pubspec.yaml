@@ -54,6 +54,7 @@ dependencies:
   geolocator: ^9.0.2
   flutter_phone_direct_caller: ^2.1.1
   flutter_paystack: ^1.0.7
+  flutterwave_standard: 1.0.7
 
 dev_dependencies:
   flutter_test:
