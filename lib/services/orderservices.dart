@@ -138,7 +138,6 @@ class OrderBloc extends ChangeNotifier {
         };
         var xenconde = jsonEncode(xData);
         print("bababa");
-
         return xenconde;
       } else {
         print("bababa");
