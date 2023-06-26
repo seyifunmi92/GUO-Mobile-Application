@@ -44,4 +44,6 @@ class ImageClass {
   static const reward = "assets/images/reward.png";
   static const twitter = "assets/images/twitter.png";
   static const whatsapp = "assets/images/whatsapp.png";
+  static const logistics = "assets/images/logistics.png";
+  static const transport = "assets/images/transport.png";
 }

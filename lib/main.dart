@@ -6,6 +6,7 @@ import 'package:guomobile/providers/sharedstorage/localstorage.dart';
 import 'package:guomobile/providers/validations/validation.dart';
 import 'package:guomobile/screens/onboarding/splashscreen.dart';
 import 'package:guomobile/screens/payment/payment.dart';
+import 'package:guomobile/screens/privacy/privacydetails.dart';
 import 'package:guomobile/services/accountbloc.dart';
 import 'package:guomobile/services/logisticsbloc.dart';
 import 'package:guomobile/services/orderservices.dart';

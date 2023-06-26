@@ -14,6 +14,7 @@ import 'package:guomobile/hooks/layout/mediaqueries.dart';
 import 'package:guomobile/hooks/text/text.dart';
 import 'package:guomobile/models/od.dart';
 import 'package:guomobile/navigators/navigation.dart';
+import 'package:guomobile/screens/privacy/privacydetails.dart';
 import 'package:guomobile/screens/refferals/loyalty.dart';
 import 'package:guomobile/screens/reviews/successreview.dart';
 
@@ -37,6 +38,34 @@ class PrivacyPolicy extends StatefulWidget {
 class _PrivacyPolicyState extends State<PrivacyPolicy> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      backgroundColor: guocolor.offWhite,
+      appBar: guoAppBar(context, "Privacy Policy", showElevation: false),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: mqHeight(context, .02)),
+        child: Column(
+          children: [
+            sbHeight(mqHeight(context, .02)),
+            containSet3(context, "Logistics", "", ImageClass.logistics,
+                onT: () {
+              mynextScreen(
+                  context,
+                  PrivacyDetails(
+                    islogistics: true,
+                  ));
+            }),
+            sbHeight(mqHeight(context, .02)),
+            containSet3(context, "Transport", "", ImageClass.transport,
+                onT: () {
+              mynextScreen(
+                  context,
+                  PrivacyDetails(
+                    islogistics: false,
+                  ));
+            })
+          ],
+        ),
+      ),
+    );
   }
 }

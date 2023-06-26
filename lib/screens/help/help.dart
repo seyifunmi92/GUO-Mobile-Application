@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:guomobile/asset/imageclass.dart';
@@ -7,23 +6,20 @@ import 'package:guomobile/constant/colors.dart';
 import 'package:guomobile/hooks/appbars/appbar.dart';
 import 'package:guomobile/hooks/containers/container.dart';
 import 'package:guomobile/hooks/dialog/loader.dart';
-
 import 'package:guomobile/hooks/formfields/formfields.dart';
 import 'package:guomobile/hooks/layout/mediaqueries.dart';
 import 'package:guomobile/hooks/text/text.dart';
 import 'package:guomobile/models/od.dart';
 import 'package:guomobile/navigators/navigation.dart';
 import 'package:guomobile/screens/help/socialmedia.dart';
+import 'package:guomobile/screens/privacy/privacy.dart';
 import 'package:guomobile/screens/refferals/loyalty.dart';
 import 'package:guomobile/screens/reviews/successreview.dart';
-
 import 'package:guomobile/services/logisticsbloc.dart';
 import 'package:modal_progress_hud_alt/modal_progress_hud_alt.dart';
-
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../hooks/buttons/buttons.dart';
 import '../../hooks/servicehooks/hookservice.dart';
 
@@ -66,7 +62,9 @@ class _HelpState extends State<Help> {
             }),
             sbHeight(mqHeight(context, .02)),
             containSet(context, "Privacy Policy",
-                "View our privacy policy here", Icons.privacy_tip),
+                "View our privacy policy here", Icons.privacy_tip, onT: () {
+              mynextScreen(context, PrivacyPolicy());
+            }),
           ],
         ),
       ),

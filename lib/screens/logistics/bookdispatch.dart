@@ -29,6 +29,7 @@ class _BookDispatchState extends State<BookDispatch> {
   bool isSelectDate = false;
   bool isSelectDatePickup = false;
   String finalDate = "";
+  bool isDoortodoor = false;
   String finalDatePickUp = "";
   bool doorSelelcted = false;
   bool terminalselected = false;
@@ -129,7 +130,11 @@ class _BookDispatchState extends State<BookDispatch> {
               )
             ]),
             sbHeight(mqHeight(context, .07)),
-            dText("Enter Pick-up Terminal", mqHeight(context, .018)),
+            dText(
+                doorSelelcted
+                    ? "Enter Pick-up Address"
+                    : "Enter Pick-up Terminal",
+                mqHeight(context, .018)),
             sbHeight(mqHeight(context, .01)),
             guoFormField(
               context,
@@ -156,7 +161,9 @@ class _BookDispatchState extends State<BookDispatch> {
                     color: guocolor.red.withOpacity(.7))
                 : dText("", 0),
             sbHeight(mqHeight(context, .02)),
-            dText("Enter Pick-up City/State", mqHeight(context, .018)),
+            dText(
+                doorSelelcted ? "Nearest Landmark" : "Enter Pick-up City/State",
+                mqHeight(context, .018)),
             sbHeight(mqHeight(context, .01)),
             guoFormField(
               context,
@@ -828,5 +835,17 @@ class _BookDispatchState extends State<BookDispatch> {
         selectedPickupDate = selected;
         finalDatePickUp = DateFormat("MMMM dd, yyyy").format(selected);
       });
+  }
+
+  _checkDispatchType() {
+    if (isDoortodoor == false) {
+      setState(() {
+        isDoortodoor = true;
+      });
+    } else {
+      setState(() {
+        isDoortodoor = false;
+      });
+    }
   }
 }

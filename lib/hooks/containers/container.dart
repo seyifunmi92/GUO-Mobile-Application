@@ -557,6 +557,42 @@ Widget containSet2(
   );
 }
 
+Widget containSet3(
+    BuildContext context, String title, String subTitle, String icon,
+    {void Function()? onT}) {
+  return InkWell(
+    onTap: onT,
+    child: Container(
+      height: mqHeight(context, .1),
+      width: totalWidth(context),
+      decoration: BoxDecoration(
+        color: guocolor.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: mqWidth(context, .02)),
+        child: Center(
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            circle3(context, icon),
+            sbWidth(mqWidth(context, .02)),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                sbHeight(mqHeight(context, .04)),
+                dText(title, mqHeight(context, .019)),
+                sbHeight(mqHeight(context, .001)),
+            
+              ],
+            )
+          ],
+        )),
+      ),
+    ),
+  );
+}
+
 Widget dContain2(
     BuildContext context, String content, Color color, String image) {
   return Container(
@@ -700,7 +736,7 @@ Widget circle3(BuildContext context, String icon) {
     child: Image.asset(
       icon,
      //color: guocolor.primaryColor,
-      height: mqHeight(context, .03),
+      height: mqHeight(context, .02),
     ),
   );
 }
